@@ -1,6 +1,8 @@
 import 'package:calme/core/app_theme_data.dart';
 import 'package:calme/core/color_values.dart';
+import 'package:calme/database/shared_preferences_service.dart';
 import 'package:calme/firebase_options.dart';
+import 'package:calme/injector/injector.dart';
 import 'package:calme/routes/router.gr.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Injector.init();
+  await Injector.instance.allReady();
+  await SharedPreferencesService.init();
   runApp(const MyApp());
 }
 

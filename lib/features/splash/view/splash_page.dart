@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:calme/database/db_helper.dart';
+import 'package:calme/database/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -17,7 +19,15 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 3), () {
-      AutoRouter.of(context).replace(const LandingRoute());
+      PageRouteInfo data = const LoginRoute();
+      if (SharedPreferencesService.getIsFirstTime()) {
+        data = const LandingRoute();
+      }
+      if (DbHelper.auth.currentUser != null) {
+        data = const DashboardRoute();
+      }
+
+      AutoRouter.of(context).replace(data);
     });
     super.initState();
   }

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:calme/database/shared_preferences_service.dart';
 import 'package:calme/features/landing/widgets/slider.dart';
 import 'package:calme/routes/router.gr.dart';
 import 'package:flutter/material.dart';
@@ -103,6 +104,7 @@ class _LandingPageState extends State<LandingPage> {
                                     ? AppLocalizations.of(context).register
                                     : AppLocalizations.of(context).skip,
                                 onPressed: () {
+                                  SharedPreferencesService.setIsFirstTime(value: false);
                                   if (_isLast()) {
                                     AutoRouter.of(context).replace(const RegisterRoute());
                                   } else {
@@ -120,6 +122,7 @@ class _LandingPageState extends State<LandingPage> {
                                     : AppLocalizations.of(context).next,
                                 onPressed: () {
                                   if (_isLast()) {
+                                    SharedPreferencesService.setIsFirstTime(value: false);
                                     AutoRouter.of(context).replace(const LoginRoute());
                                   } else {
                                     _controller.nextPage(
