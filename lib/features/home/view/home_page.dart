@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:calme/core/color_values.dart';
 import 'package:calme/core/styles.dart';
+import 'package:calme/data/models/article/article_model.dart';
 import 'package:calme/data/models/meditation/meditation_model.dart';
 import 'package:calme/l10n/l10n.dart';
 import 'package:calme/routes/router.gr.dart';
@@ -40,15 +41,15 @@ class _HomePageState extends State<HomePage> {
             children: [
               _buildDayIntroductionSectionWidget(),
               const SizedBox(height: Styles.defaultSpacing),
-              _buildMeditationSectionWidget(),
+              _buildCopingToolboxWidget(),
+              // const SizedBox(height: Styles.defaultSpacing),
+              // _buildMeditationSectionWidget(),
               const SizedBox(height: Styles.defaultSpacing),
               _buildOtherMeditationSectionWidget(),
-              const SizedBox(height: Styles.defaultSpacing),
-              _buildBreathingExerciseSectionWidget(),
+              // const SizedBox(height: Styles.defaultSpacing),
+              // _buildBreathingExerciseSectionWidget(),
               const SizedBox(height: Styles.defaultSpacing),
               _buildArticleSectionWidget(),
-              const SizedBox(height: Styles.defaultSpacing),
-              _buildCopingToolboxWidget(),
               const SizedBox(height: Styles.defaultSpacing),
             ],
           ),
@@ -59,38 +60,38 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildCopingToolboxWidget() {
     Color color = Theme.of(context).primaryColor;
-    return Container(
-      color: color,
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(Styles.defaultPadding),
-      child: Row(
-        children: [
-          GlowingImageWidget(cardColor: color, imageUrl: 'assets/home/gift.svg',),
-          const SizedBox(width: Styles.defaultSpacing),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(AppLocalizations.of(context).copingToolbox,
-                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                    color: Colors.white
-                  ),
-                ),
-                const SizedBox(height: Styles.defaultSpacing,),
-                Text(AppLocalizations.of(context).copingText,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+    return GestureDetector(
+      onTap: () {
+        AutoRouter.of(context).push(const CopingRoute());
+      },
+      child: Container(
+        color: color,
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.all(Styles.defaultPadding),
+        child: Row(
+          children: [
+            GlowingImageWidget(cardColor: color, imageUrl: 'assets/home/gift.svg',),
+            const SizedBox(width: Styles.defaultSpacing),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(AppLocalizations.of(context).copingToolbox,
+                    style: Theme.of(context).textTheme.displaySmall?.copyWith(
                       color: Colors.white
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: Styles.defaultSpacing,),
+                  Text(AppLocalizations.of(context).copingText,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.white
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: Styles.defaultSpacing),
-          InkWell(
-            onTap: () {
-              AutoRouter.of(context).navigate(const CopingRoute());
-            },
-            child: Container(
+            const SizedBox(width: Styles.defaultSpacing),
+            Container(
               decoration: BoxDecoration(
                   color: ColorValues.lighten(color, 20),
                   borderRadius: BorderRadius.circular(Styles.smallerBorder)
@@ -100,9 +101,9 @@ class _HomePageState extends State<HomePage> {
                 UniconsSolid.angle_right_b,
                 color: Colors.white,
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -142,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                 ?.copyWith(color: ColorValues.grey50),
           ),
           const SizedBox(height: Styles.biggerSpacing),
-          const ArticleCardWidget(),
+          ArticleCardWidget(articleModel: generateMockArticleModel(),),
           const SizedBox(height: Styles.smallerSpacing),
         ],
       ),

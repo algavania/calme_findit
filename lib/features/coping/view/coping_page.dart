@@ -1,16 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:calme/core/color_values.dart';
 import 'package:calme/core/styles.dart';
-import 'package:calme/data/models/coping/coding_model.dart';
+import 'package:calme/data/models/coping/coping_model.dart';
+import 'package:calme/features/coping/bloc/coping_bloc.dart';
+import 'package:calme/features/coping/data/coping_repository.dart';
+import 'package:calme/injector/injector.dart';
 import 'package:calme/l10n/l10n.dart';
-import 'package:calme/widgets/custom_button.dart';
-import 'package:flutter/animation.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:sizer/sizer.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class CopingPage extends StatefulWidget {
   const CopingPage({super.key});
@@ -21,26 +21,14 @@ class CopingPage extends StatefulWidget {
 
 class _CopingPageState extends State<CopingPage> {
   final ValueNotifier<int> _slideCount = ValueNotifier(1);
-  List<CopingModel> _copingSkills = [];
+  final _bloc = CopingBloc(repository: Injector.instance<CopingRepository>());
 
   @override
   void initState() {
-    _copingSkills = [
-      CopingModel(title: 'Coping Skill 1', description: 'Melakukan teknik pernapasan  atau meditasi untuk menenangkan pikiran dan tubuh.', thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/calme-64dbe.appspot.com/o/copings%2FAvw3jPkxd50RmJjvaxVl%2Fthumbnail.png?alt=media&token=7561a195-9ba4-49f2-b1ca-5b87484b00e7', createdAt: DateTime.now()),
-      CopingModel(title: 'Coping Skill 2', description: 'Melakukan teknik pernapasan  atau meditasi untuk menenangkan pikiran dan tubuh.', thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/calme-64dbe.appspot.com/o/copings%2FAvw3jPkxd50RmJjvaxVl%2Fthumbnail.png?alt=media&token=7561a195-9ba4-49f2-b1ca-5b87484b00e7', createdAt: DateTime.now()),
-      CopingModel(title: 'Coping Skill 3', description: 'Melakukan teknik pernapasan  atau meditasi untuk menenangkan pikiran dan tubuh.', thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/calme-64dbe.appspot.com/o/copings%2FAvw3jPkxd50RmJjvaxVl%2Fthumbnail.png?alt=media&token=7561a195-9ba4-49f2-b1ca-5b87484b00e7', createdAt: DateTime.now()),
-      CopingModel(title: 'Coping Skill 4', description: 'Melakukan teknik pernapasan  atau meditasi untuk menenangkan pikiran dan tubuh.', thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/calme-64dbe.appspot.com/o/copings%2FAvw3jPkxd50RmJjvaxVl%2Fthumbnail.png?alt=media&token=7561a195-9ba4-49f2-b1ca-5b87484b00e7', createdAt: DateTime.now()),
-      CopingModel(title: 'Coping Skill 5', description: 'Melakukan teknik pernapasan  atau meditasi untuk menenangkan pikiran dan tubuh.', thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/calme-64dbe.appspot.com/o/copings%2FAvw3jPkxd50RmJjvaxVl%2Fthumbnail.png?alt=media&token=7561a195-9ba4-49f2-b1ca-5b87484b00e7', createdAt: DateTime.now()),
-      CopingModel(title: 'Coping Skill 6', description: 'Melakukan teknik pernapasan  atau meditasi untuk menenangkan pikiran dan tubuh.', thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/calme-64dbe.appspot.com/o/copings%2FAvw3jPkxd50RmJjvaxVl%2Fthumbnail.png?alt=media&token=7561a195-9ba4-49f2-b1ca-5b87484b00e7', createdAt: DateTime.now()),
-      CopingModel(title: 'Coping Skill 7', description: 'Melakukan teknik pernapasan  atau meditasi untuk menenangkan pikiran dan tubuh.', thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/calme-64dbe.appspot.com/o/copings%2FAvw3jPkxd50RmJjvaxVl%2Fthumbnail.png?alt=media&token=7561a195-9ba4-49f2-b1ca-5b87484b00e7', createdAt: DateTime.now()),
-      CopingModel(title: 'Coping Skill 8', description: 'Melakukan teknik pernapasan  atau meditasi untuk menenangkan pikiran dan tubuh.', thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/calme-64dbe.appspot.com/o/copings%2FAvw3jPkxd50RmJjvaxVl%2Fthumbnail.png?alt=media&token=7561a195-9ba4-49f2-b1ca-5b87484b00e7', createdAt: DateTime.now()),
-      CopingModel(title: 'Coping Skill 9', description: 'Melakukan teknik pernapasan  atau meditasi untuk menenangkan pikiran dan tubuh.', thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/calme-64dbe.appspot.com/o/copings%2FAvw3jPkxd50RmJjvaxVl%2Fthumbnail.png?alt=media&token=7561a195-9ba4-49f2-b1ca-5b87484b00e7', createdAt: DateTime.now()),
-      CopingModel(title: 'Coping Skill 10', description: 'Melakukan teknik pernapasan  atau meditasi untuk menenangkan pikiran dan tubuh.', thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/calme-64dbe.appspot.com/o/copings%2FAvw3jPkxd50RmJjvaxVl%2Fthumbnail.png?alt=media&token=7561a195-9ba4-49f2-b1ca-5b87484b00e7', createdAt: DateTime.now())
-    ];
-    
+    _bloc.add(const CopingEvent.getAllCopings());
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,46 +41,58 @@ class _CopingPageState extends State<CopingPage> {
         iconTheme: const IconThemeData(color: ColorValues.white),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: Styles.extraLargePadding, horizontal: Styles.defaultPadding),
-        child: Column(
-          children: [
-            _buildSwipeCards(),
-            const Spacer(),
-            _buildBottomButton(),
-          ],
+        padding: const EdgeInsets.symmetric(
+            vertical: Styles.extraLargePadding,
+            horizontal: Styles.defaultPadding),
+        child: BlocBuilder<CopingBloc, CopingState>(
+          bloc: _bloc,
+          builder: (context, state) {
+            final dummyList = List.generate(5, (index) => generateMockCopingModel());
+            return state.maybeMap(
+              loaded: (s) => _buildSwipeCards(s.list, false),
+              orElse: () => _buildSwipeCards(dummyList, true),
+            );
+          },
         ),
       ),
       backgroundColor: ColorValues.primary50,
     );
   }
 
-  Widget _buildSwipeCards() {
-    return Column(
-      children: [
-        SizedBox(
-          height: 56.h,
-          child: CardSwiper(
-            onSwipe: (int _, int? __, CardSwiperDirection ___) {
-              _slideCount.value < _copingSkills.length ? _slideCount.value++ : _slideCount.value = 1;
-              return true;
-            },
-            cardsCount: _copingSkills.length,
-            cardBuilder: (context, index, _, __) {
-              return _buildCopingCard(_copingSkills[index]);
-            },
+  Widget _buildSwipeCards(List<CopingModel> list, bool isLoading) {
+    return Skeletonizer(
+      enabled: isLoading,
+      child: Column(
+        children: [
+          SizedBox(
+            height: 56.h,
+            child: CardSwiper(
+              onSwipe: (int _, int? __, CardSwiperDirection ___) {
+                _slideCount.value < list.length
+                    ? _slideCount.value++
+                    : _slideCount.value = 1;
+                return true;
+              },
+              cardsCount: list.length,
+              cardBuilder: (context, index, _, __) {
+                return _buildCopingCard(list[index]);
+              },
+            ),
           ),
-        ),
-        const SizedBox(height: Styles.biggerSpacing),
-        ValueListenableBuilder(
-          valueListenable: _slideCount,
-          builder: (context, _, __) {
-            return Text(
-              '${AppLocalizations.of(context).slide} ${_slideCount.value}/${_copingSkills.length}',
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(color: ColorValues.white),
-            );
-          }
-        )
-      ],
+          const SizedBox(height: Styles.biggerSpacing),
+          ValueListenableBuilder(
+              valueListenable: _slideCount,
+              builder: (context, _, __) {
+                return Text(
+                  '${AppLocalizations.of(context).slide} ${_slideCount.value}/${list.length}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .displaySmall
+                      ?.copyWith(color: ColorValues.white),
+                );
+              })
+        ],
+      ),
     );
   }
 
@@ -134,28 +134,25 @@ class _CopingPageState extends State<CopingPage> {
                 const SizedBox(height: Styles.bigSpacing),
                 Text(
                   copingModel.title,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(color: ColorValues.white),
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelLarge
+                      ?.copyWith(color: ColorValues.white),
                 ),
                 const SizedBox(height: Styles.mediumSpacing),
                 Text(
                   copingModel.description,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: ColorValues.white),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: ColorValues.white),
                 )
               ],
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildBottomButton() {
-    return CustomButton(
-      onPressed: () {
-      },
-      buttonText: AppLocalizations.of(context).next,
-      backgroundColor: ColorValues.primary40,
     );
   }
 }
