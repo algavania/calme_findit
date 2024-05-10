@@ -5,6 +5,7 @@ import 'package:calme/features/article/bloc/article_bloc.dart';
 import 'package:calme/features/article/data/article_repository.dart';
 import 'package:calme/injector/injector.dart';
 import 'package:calme/l10n/l10n.dart';
+import 'package:calme/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unicons/unicons.dart';
@@ -32,31 +33,27 @@ class _ArticlePageState extends State<ArticlePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: GestureDetector(
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: AppLocalizations.of(context).article
+      ),
+      body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Column(
-          children: [
-            const SizedBox(height: Styles.defaultPadding),
-            _buildAppBar(),
-            const SizedBox(height: Styles.defaultSpacing),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    // _buildTopSearchWidget(),
-                    // const SizedBox(height: Styles.defaultSpacing),
-                    _buildArticleSectionWidget(),
-                    const SizedBox(height: Styles.defaultSpacing),
-                  ],
-                ),
-              ),
+        child: Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // _buildTopSearchWidget(),
+                // const SizedBox(height: Styles.defaultSpacing),
+                _buildArticleSectionWidget(),
+                const SizedBox(height: Styles.defaultSpacing),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
+      )
     );
   }
 
@@ -134,40 +131,6 @@ class _ArticlePageState extends State<ArticlePage> {
             .findInterestingArticle,
         icon: UniconsLine.search,
         isDense: true,
-      ),
-    );
-  }
-
-  Widget _buildAppBar() {
-    return Padding(
-      padding:
-      const EdgeInsets.symmetric(horizontal: Styles.defaultPadding),
-      child: Row(
-        children: [
-          RoundedButton(
-              child: Image.asset(
-                'assets/core/logo.png',
-                width: 30,
-              )),
-          Expanded(
-              child: Text(
-                AppLocalizations
-                    .of(context)
-                    .article,
-                textAlign: TextAlign.center,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .labelLarge,
-              )),
-          // RoundedButton(
-          //     border: Border.all(color: ColorValues.secondary50),
-          //     onTap: () {},
-          //     child: const Icon(
-          //       UniconsLine.bookmark,
-          //       color: ColorValues.secondary50,
-          //     )),
-        ],
       ),
     );
   }
