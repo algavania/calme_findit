@@ -75,6 +75,10 @@ import 'package:calme/features/pages.dart';
         path: '/journal-start',
         page: JournalStartPage,
         transitionsBuilder: TransitionsBuilders.fadeIn),
+    CustomRoute(
+        path: '/coping',
+        page: CopingPage,
+        transitionsBuilder: TransitionsBuilders.fadeIn),
   ],
 )
 class $AppRouter {}

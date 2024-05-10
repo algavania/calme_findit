@@ -36,6 +36,7 @@ dependencies:
   cached_network_image: ^3.3.1
   shared_preferences: ^2.2.3
   firebase_auth: ^4.19.5
+  flutter_card_swiper: ^7.0.1
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,7 @@ flutter:
      - assets/landing/
      - assets/home/
      - assets/people/
+     - assets/coping/
   #   - images/a_dot_ham.jpeg
 
   # fonts:

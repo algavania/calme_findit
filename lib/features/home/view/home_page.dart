@@ -85,6 +85,7 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(width: Styles.defaultSpacing),
           InkWell(
             onTap: () {
+              AutoRouter.of(context).navigate(const CopingRoute());
             },
             child: Container(
               decoration: BoxDecoration(

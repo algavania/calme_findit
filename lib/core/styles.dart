@@ -1,6 +1,9 @@
 class Styles {
   static const double defaultPadding = 16;
   static const double biggerPadding = 20;
+  static const double largePadding = 28;
+  static const double largerPadding = 32;
+  static const double extraLargePadding = 48;
   static const double contentPadding = 12;
   static const double bigSpacing = 24;
   static const double biggerSpacing = 16;
