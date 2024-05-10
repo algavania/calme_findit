@@ -30,6 +30,9 @@ class AppThemeData {
         scaffoldBackgroundColor: ColorValues.background,
         canvasColor: ColorValues.background,
         brightness: Brightness.light,
+        appBarTheme: const AppBarTheme(
+          surfaceTintColor: Colors.transparent
+        ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           elevation: 0,
           showSelectedLabels: true,
@@ -125,7 +128,7 @@ class AppThemeData {
               fontWeight: FontWeight.w400),
           labelLarge: GoogleFonts.plusJakartaSans(
               color: ColorValues.text50,
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.bold),
           bodySmall: GoogleFonts.plusJakartaSans(
               color: ColorValues.text50,

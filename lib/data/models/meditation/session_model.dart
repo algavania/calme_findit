@@ -10,6 +10,7 @@ part 'session_model.g.dart';
 class SessionModel with _$SessionModel {
   const factory SessionModel({
     required int order,
+    required int length,
     required String thumbnailUrl,
     required String audioUrl,
     @TimestampConverter() required DateTime createdAt,
@@ -23,6 +24,7 @@ class SessionModel with _$SessionModel {
 SessionModel generateMockSessionModel() {
   return SessionModel(
       order: 1,
+      length: 5,
       audioUrl: '',
       thumbnailUrl:
           'https://firebasestorage.googleapis.com/v0/b/calme-64dbe.appspot.com/o/meditations%2FByW607Dqnrq7YsZ5bTmK%2Fsessions%2F7uEqtOlCIry0u0RG61EI%2Fthumbnail.png?alt=media&token=4b4d523b-86a5-4983-a7ab-639568e53b30',

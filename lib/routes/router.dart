@@ -72,6 +72,14 @@ import 'package:calme/features/pages.dart';
         page: JournalDetailPage,
         transitionsBuilder: TransitionsBuilders.fadeIn),
     CustomRoute(
+        path: '/detail-meditation',
+        page: MeditationDetailPage,
+        transitionsBuilder: TransitionsBuilders.fadeIn),
+    CustomRoute(
+        path: '/session',
+        page: SessionPage,
+        transitionsBuilder: TransitionsBuilders.fadeIn),
+    CustomRoute(
         path: '/journal-start',
         page: JournalStartPage,
         transitionsBuilder: TransitionsBuilders.fadeIn),

@@ -75,4 +75,9 @@ extension CustomConverter on String {
   String replaceToNewLine() {
     return replaceAll(r'\n', '\n');
   }
+
+  Color hexToColor() {
+    final hexValue = int.parse('FF$this', radix: 16);
+    return Color(hexValue);
+  }
 }

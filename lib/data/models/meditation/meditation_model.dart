@@ -1,3 +1,4 @@
+import 'package:calme/data/models/meditation/session_model.dart';
 import 'package:calme/data/models/timestamp_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -15,6 +16,7 @@ class MeditationModel with _$MeditationModel {
     required String title,
     @TimestampConverter() required DateTime createdAt,
     @JsonKey(includeToJson: false, includeFromJson: false) String? id,
+    @JsonKey(includeToJson: false, includeFromJson: false) @Default([]) List<SessionModel> sessions,
   }) = _MeditationModel;
 
   factory MeditationModel.fromJson(Map<String, Object?> json) =>

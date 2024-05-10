@@ -89,6 +89,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(height: 16),
                       CustomTextField(
+                        textInputType: TextInputType.emailAddress,
                         controller: _emailController,
                         label: AppLocalizations.of(context).yourEmail,
                         hint: AppLocalizations.of(context).enterEmail,
