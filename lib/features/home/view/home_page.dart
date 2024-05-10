@@ -3,14 +3,23 @@ import 'package:calme/core/color_values.dart';
 import 'package:calme/core/styles.dart';
 import 'package:calme/data/models/article/article_model.dart';
 import 'package:calme/data/models/meditation/meditation_model.dart';
+import 'package:calme/features/article/bloc/article_bloc.dart';
+import 'package:calme/features/article/data/article_repository.dart';
+import 'package:calme/features/meditation/bloc/meditation_bloc.dart';
+import 'package:calme/features/meditation/data/repository/meditation_repository.dart';
+import 'package:calme/injector/injector.dart';
 import 'package:calme/l10n/l10n.dart';
 import 'package:calme/routes/router.gr.dart';
 import 'package:calme/widgets/custom_app_bar.dart';
 import 'package:calme/widgets/custom_button.dart';
 import 'package:calme/widgets/custom_text_field.dart';
 import 'package:calme/widgets/glowing_image_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:unicons/unicons.dart';
 
 import '../../../../widgets/article_card_widget.dart';
@@ -25,6 +34,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
+  final _meditationBloc =
+      MeditationBloc(repository: Injector.instance<MeditationRepository>());
+  final _articleBloc =
+      ArticleBloc(repository: Injector.instance<ArticleRepository>());
+
+  @override
+  void initState() {
+    _meditationBloc.add(const MeditationEvent.getAllMeditations());
+    _articleBloc.add(const ArticleEvent.getArticles());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,22 +90,31 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(Styles.defaultPadding),
         child: Row(
           children: [
-            GlowingImageWidget(cardColor: color, imageUrl: 'assets/home/gift.svg',),
+            GlowingImageWidget(
+              cardColor: color,
+              imageUrl: 'assets/home/gift.svg',
+            ),
             const SizedBox(width: Styles.defaultSpacing),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(AppLocalizations.of(context).copingToolbox,
-                    style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                      color: Colors.white
-                    ),
+                  Text(
+                    AppLocalizations.of(context).copingToolbox,
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall
+                        ?.copyWith(color: Colors.white),
                   ),
-                  const SizedBox(height: Styles.defaultSpacing,),
-                  Text(AppLocalizations.of(context).copingText,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.white
-                    ),
+                  const SizedBox(
+                    height: Styles.defaultSpacing,
+                  ),
+                  Text(
+                    AppLocalizations.of(context).copingText,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: Colors.white),
                   ),
                 ],
               ),
@@ -94,8 +123,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               decoration: BoxDecoration(
                   color: ColorValues.lighten(color, 20),
-                  borderRadius: BorderRadius.circular(Styles.smallerBorder)
-              ),
+                  borderRadius: BorderRadius.circular(Styles.smallerBorder)),
               padding: const EdgeInsets.all(Styles.smallerSpacing),
               child: const Icon(
                 UniconsSolid.angle_right_b,
@@ -125,12 +153,17 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(width: 1.w),
-              Text(
-                AppLocalizations.of(context).viewAll,
-                style: Theme.of(context)
-                    .textTheme
-                    .displaySmall
-                    ?.copyWith(color: ColorValues.secondary50),
+              GestureDetector(
+                onTap: () {
+                  AutoRouter.of(context).navigate(const ArticleRoute());
+                },
+                child: Text(
+                  AppLocalizations.of(context).viewAll,
+                  style: Theme.of(context)
+                      .textTheme
+                      .displaySmall
+                      ?.copyWith(color: ColorValues.secondary50),
+                ),
               )
             ],
           ),
@@ -143,23 +176,50 @@ class _HomePageState extends State<HomePage> {
                 ?.copyWith(color: ColorValues.grey50),
           ),
           const SizedBox(height: Styles.biggerSpacing),
-          ArticleCardWidget(articleModel: generateMockArticleModel(),),
+          BlocBuilder<ArticleBloc, ArticleState>(
+            bloc: _articleBloc,
+            builder: (context, state) {
+              final dummyList =
+                  List.generate(3, (index) => generateMockArticleModel());
+              return state.maybeMap(
+                  loaded: (s) => _buildArticleList(s.list, false),
+                  orElse: () => _buildArticleList(dummyList, true));
+            },
+          ),
           const SizedBox(height: Styles.smallerSpacing),
         ],
       ),
     );
   }
 
+  Widget _buildArticleList(List<ArticleModel> list, bool isLoading) {
+    return Skeletonizer(
+      enabled: isLoading,
+      child: ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (_, i) => GestureDetector(
+              onTap: () {
+                AutoRouter.of(context)
+                    .push(DetailArticleRoute(article: list[i]));
+              },
+              child: ArticleCardWidget(articleModel: list[i])),
+          separatorBuilder: (_, __) => const SizedBox(
+                height: Styles.mediumSpacing,
+              ),
+          itemCount: list.length),
+    );
+  }
+
   Widget _buildBreathingExerciseSectionWidget() {
     return Container(
       decoration: const BoxDecoration(
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: AssetImage('assets/home/breathing_bg.png')
-        )
-      ),
+          image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage('assets/home/breathing_bg.png'))),
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: Styles.biggerPadding, horizontal: Styles.defaultPadding),
+      padding: const EdgeInsets.symmetric(
+          vertical: Styles.biggerPadding, horizontal: Styles.defaultPadding),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -193,9 +253,7 @@ class _HomePageState extends State<HomePage> {
             child: CustomButton(
               buttonText: AppLocalizations.of(context).start,
               prefixIcon: UniconsLine.play,
-              onPressed: () {
-
-              },
+              onPressed: () {},
             ),
           )
         ],
@@ -204,7 +262,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildOtherMeditationSectionWidget() {
-    final dummyModel = generateMockMeditationModel();
     return Container(
       color: Colors.white,
       width: MediaQuery.of(context).size.width,
@@ -221,12 +278,17 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(width: 1.w),
-              Text(
-                AppLocalizations.of(context).viewAll,
-                style: Theme.of(context)
-                    .textTheme
-                    .displaySmall
-                    ?.copyWith(color: ColorValues.secondary50),
+              GestureDetector(
+                onTap: () {
+                  AutoRouter.of(context).navigate(const MeditationRoute());
+                },
+                child: Text(
+                  AppLocalizations.of(context).viewAll,
+                  style: Theme.of(context)
+                      .textTheme
+                      .displaySmall
+                      ?.copyWith(color: ColorValues.secondary50),
+                ),
               )
             ],
           ),
@@ -239,40 +301,37 @@ class _HomePageState extends State<HomePage> {
                 ?.copyWith(color: ColorValues.grey50),
           ),
           const SizedBox(height: Styles.biggerSpacing),
-          MeditationCardWidget(meditationModel: dummyModel,),
-          const SizedBox(height: Styles.smallerSpacing),
-          MeditationCardWidget(meditationModel: dummyModel),
-          const SizedBox(height: Styles.smallerSpacing),
-          MeditationCardWidget(meditationModel: dummyModel),
+          BlocBuilder<MeditationBloc, MeditationState>(
+            bloc: _meditationBloc,
+            builder: (context, state) {
+              final dummyList =
+                  List.generate(3, (index) => generateMockMeditationModel());
+              return state.maybeMap(
+                  loaded: (s) => _buildMeditationList(s.list, false),
+                  orElse: () => _buildMeditationList(dummyList, true));
+            },
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildMeditationSectionWidget() {
-    return Container(
-      color: Colors.white,
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(Styles.defaultPadding),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            AppLocalizations.of(context).meditationSectionText1,
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
-          const SizedBox(height: Styles.mediumSpacing),
-          Text(
-            AppLocalizations.of(context).meditationSectionText2,
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall
-                ?.copyWith(color: ColorValues.grey50),
-          ),
-          const SizedBox(height: Styles.biggerSpacing),
-          MeditationCardWidget(meditationModel: generateMockMeditationModel(),)
-        ],
-      ),
+  Widget _buildMeditationList(List<MeditationModel> list, bool isLoading) {
+    return Skeletonizer(
+      enabled: isLoading,
+      child: ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (_, i) => GestureDetector(
+              onTap: () {
+                AutoRouter.of(context)
+                    .push(MeditationDetailRoute(meditationModel: list[i]));
+              },
+              child: MeditationCardWidget(meditationModel: list[i])),
+          separatorBuilder: (_, __) => const SizedBox(
+                height: Styles.mediumSpacing,
+              ),
+          itemCount: list.length),
     );
   }
 

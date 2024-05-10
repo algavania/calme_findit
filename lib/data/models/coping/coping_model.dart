@@ -2,10 +2,6 @@ import 'package:calme/data/models/timestamp_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:calme/data/models/timestamp_converter.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-
 part 'coping_model.freezed.dart';
 
 part 'coping_model.g.dart';

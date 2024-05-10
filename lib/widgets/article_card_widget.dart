@@ -27,7 +27,9 @@ class _ArticleCardWidgetState extends State<ArticleCardWidget> {
       children: [
         GestureDetector(
           onTap: () {
-            AutoRouter.of(context).navigate(const DetailArticleRoute());
+            AutoRouter.of(context).navigate(DetailArticleRoute(
+              article: widget.articleModel,
+            ));
           },
           child: Container(
             width: MediaQuery.of(context).size.width,
