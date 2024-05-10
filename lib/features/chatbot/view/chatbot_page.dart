@@ -1,8 +1,12 @@
 import 'package:calme/core/color_values.dart';
 import 'package:calme/core/styles.dart';
+import 'package:calme/database/db_helper.dart';
+import 'package:calme/util/logger.dart';
 import 'package:calme/widgets/custom_text_field.dart';
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg_provider;
 import 'package:unicons/unicons.dart';
@@ -21,15 +25,18 @@ class ChatbotPage extends StatefulWidget {
 class _ChatbotPageState extends State<ChatbotPage> {
   final TextEditingController _chatController = TextEditingController();
   final List<MessageModel> _list = [];
-  
+  final _prompt =
+      'Jawab selayaknya kamu adalah seorang psikolog profesional. Di sini kita sedang chat dengan satu sama lain.';
+  final _requestText = <Messages>[];
+  late OpenAI _openAI;
+
   @override
   void initState() {
-    _list.addAll([
-      MessageModel(message: 'Hai'),
-      MessageModel(message: 'Halo, apa kabar hari  ini?', isSender: false),
-      MessageModel(message: 'Hmm, baik hari ini, cuman abis kena bully, aku harus ngapain?'),
-      MessageModel(message: 'Saya tidak berpikir menilai orang itu baik untuk dilakukan, tetapi saya pikir semua orang menilai secara internal.', isSender: false),
-    ]);
+    _openAI = OpenAI.instance.build(
+        token: DbHelper.token,
+        baseOption: HttpSetup(receiveTimeout: const Duration(minutes: 5)),
+        enableLog: true);
+    _requestText.add(Messages(role: Role.system, content: _prompt));
     super.initState();
   }
 
@@ -49,19 +56,15 @@ class _ChatbotPageState extends State<ChatbotPage> {
                 child: Container(
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                        alignment: Alignment.centerRight,
-                        fit: BoxFit.cover,
-                        image: svg_provider.Svg(
-                          'assets/home/chat_bg.svg',
-                          size: Size(100.w, 100.h)
-                        )
-                      ),
+                          alignment: Alignment.centerRight,
+                          fit: BoxFit.cover,
+                          image: svg_provider.Svg('assets/home/chat_bg.svg',
+                              size: Size(100.w, 100.h))),
                       color: Colors.white,
                       border: const Border(
                         top: BorderSide(color: ColorValues.grey10),
                         bottom: BorderSide(color: ColorValues.grey10),
-                      )
-                  ),
+                      )),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -72,12 +75,32 @@ class _ChatbotPageState extends State<ChatbotPage> {
                 ),
               ),
               const SizedBox(height: Styles.defaultSpacing),
-              MessageChatBoxWidget(controller: _chatController, onSend: () {
-                setState(() {
-                  _list.add(MessageModel(message: _chatController.text));
-                  _chatController.clear();
-                });
-              },),
+              MessageChatBoxWidget(
+                controller: _chatController,
+                onSend: () async {
+                  context.loaderOverlay.show();
+                  final content = _chatController.text.trimLeft().trimRight();
+                  _requestText.add(Messages(role: Role.user, content: content));
+                  final request = ChatCompleteText(
+                      messages: _requestText.map((e) => e.toJson()).toList(),
+                      maxToken: 500,
+                      model: GptTurbo16k0631Model());
+                  final response =
+                      await _openAI.onChatCompletion(request: request);
+                  var text = '';
+                  for (var element in response?.choices ?? []) {
+                    text += element.message?.content ?? '';
+                    logger.d("data -> ${element.message?.content}");
+                  }
+                  context.loaderOverlay.hide();
+
+                  setState(() {
+                    _list.add(MessageModel(message: content));
+                    _list.add(MessageModel(message: text, isSender: false));
+                    _chatController.clear();
+                  });
+                },
+              ),
             ],
           ),
         ),
@@ -87,36 +110,50 @@ class _ChatbotPageState extends State<ChatbotPage> {
 
   Widget _buildBody() {
     return ListView.separated(
-      separatorBuilder: (_, __) => const SizedBox(height: Styles.defaultSpacing),
+      separatorBuilder: (_, __) =>
+          const SizedBox(height: Styles.defaultSpacing),
       itemCount: _list.length,
       shrinkWrap: true,
       padding: const EdgeInsets.symmetric(vertical: Styles.defaultPadding),
       physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index){
+      itemBuilder: (context, index) {
         MessageModel chat = _list[index];
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: Styles.defaultPadding),
+          padding:
+              const EdgeInsets.symmetric(horizontal: Styles.defaultPadding),
           child: Align(
-            alignment: (!chat.isSender ? Alignment.topLeft : Alignment.topRight),
+            alignment:
+                (!chat.isSender ? Alignment.topLeft : Alignment.topRight),
             child: Container(
               decoration: BoxDecoration(
-                border: chat.isSender ? null : Border.all(color: ColorValues.grey10),
+                border: chat.isSender
+                    ? null
+                    : Border.all(color: ColorValues.grey10),
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(!chat.isSender ? Styles.smallBorder : Styles.defaultBorder),
-                  topRight: Radius.circular(chat.isSender ? Styles.smallBorder : Styles.defaultBorder),
+                  topLeft: Radius.circular(!chat.isSender
+                      ? Styles.smallBorder
+                      : Styles.defaultBorder),
+                  topRight: Radius.circular(chat.isSender
+                      ? Styles.smallBorder
+                      : Styles.defaultBorder),
                   bottomRight: const Radius.circular(Styles.defaultBorder),
                   bottomLeft: const Radius.circular(Styles.defaultBorder),
                 ),
-                color: (!chat.isSender ? ColorValues.background : Theme.of(context).primaryColor),
+                color: (!chat.isSender
+                    ? ColorValues.background
+                    : Theme.of(context).primaryColor),
               ),
-              padding: const EdgeInsets.symmetric(vertical: Styles.contentPadding, horizontal: Styles.defaultPadding),
+              padding: const EdgeInsets.symmetric(
+                  vertical: Styles.contentPadding,
+                  horizontal: Styles.defaultPadding),
               margin: EdgeInsets.only(
-                left: !chat.isSender ? 0 : 10.w,
-                right: chat.isSender ? 0 : 10.w
+                  left: !chat.isSender ? 0 : 10.w,
+                  right: chat.isSender ? 0 : 10.w),
+              child: Text(
+                chat.message,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: chat.isSender ? Colors.white : Colors.black),
               ),
-              child: Text(chat.message, style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: chat.isSender ? Colors.white : Colors.black
-              ),),
             ),
           ),
         );
@@ -176,7 +213,8 @@ class _ChatbotPageState extends State<ChatbotPage> {
 }
 
 class MessageChatBoxWidget extends StatefulWidget {
-  const MessageChatBoxWidget({Key? key, required this.controller, this.onSend}) : super(key: key);
+  const MessageChatBoxWidget({Key? key, required this.controller, this.onSend})
+      : super(key: key);
   final TextEditingController controller;
   final void Function()? onSend;
 
@@ -199,6 +237,7 @@ class _MessageChatBoxWidgetState extends State<MessageChatBoxWidget> {
           Expanded(
             child: CustomTextField(
               controller: widget.controller,
+              maxLines: null,
               isDense: true,
               onChanged: (s) {
                 setState(() {
@@ -211,9 +250,12 @@ class _MessageChatBoxWidgetState extends State<MessageChatBoxWidget> {
           const SizedBox(width: Styles.defaultSpacing),
           RoundedButton(
               onTap: !_isSend ? null : widget.onSend,
-              color: _isSend ? Theme.of(context).primaryColor : ColorValues.grey10,
+              color:
+                  _isSend ? Theme.of(context).primaryColor : ColorValues.grey10,
               child: Icon(
-                _isSend ? UniconsLine.location_arrow_alt : UniconsLine.navigator,
+                _isSend
+                    ? UniconsLine.location_arrow_alt
+                    : UniconsLine.navigator,
                 color: _isSend ? Colors.white : ColorValues.grey30,
               ))
         ],
@@ -228,4 +270,3 @@ class MessageModel {
 
   MessageModel({required this.message, this.isSender = true});
 }
-

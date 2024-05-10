@@ -38,6 +38,7 @@ dependencies:
   firebase_auth: ^4.19.5
   flutter_card_swiper: ^7.0.1
   audioplayers: ^6.0.0
+  chat_gpt_sdk: ^3.0.4
 
 dev_dependencies:
   flutter_test:

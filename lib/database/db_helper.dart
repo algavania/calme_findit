@@ -13,4 +13,6 @@ class DbHelper {
   static const questions = 'questions';
   static const journals = 'journals';
   static const journalAnswers = 'answers';
+
+  static const token = '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';
 }
