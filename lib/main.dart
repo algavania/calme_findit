@@ -1,6 +1,8 @@
 import 'package:calme/core/app_theme_data.dart';
 import 'package:calme/core/color_values.dart';
+import 'package:calme/firebase_options.dart';
 import 'package:calme/routes/router.gr.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -10,6 +12,9 @@ import 'l10n/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -28,12 +33,12 @@ class _MyAppState extends State<MyApp> {
     return Sizer(builder: (_, __, ___) {
       return GlobalLoaderOverlay(
         useDefaultLoading: false,
-        closeOnBackButton: true,
-        overlayWidget: const Center(
+        closeOnBackButton: false,
+        overlayWidgetBuilder: (_) => const Center(
             child: SpinKitChasingDots(
-              color: ColorValues.primary50,
-              size: 50.0,
-            )),
+          color: ColorValues.primary50,
+          size: 50.0,
+        )),
         child: MaterialApp.router(
           theme: AppThemeData.getTheme(context),
           routerDelegate: _appRouter.delegate(),
