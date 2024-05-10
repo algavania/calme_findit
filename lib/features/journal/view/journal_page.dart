@@ -4,7 +4,6 @@ import 'package:calme/core/styles.dart';
 import 'package:calme/data/models/journal/journal_model.dart';
 import 'package:calme/features/journal/bloc/journal_bloc.dart';
 import 'package:calme/features/journal/data/repository/journal_repository.dart';
-import 'package:calme/features/journal/journal.dart';
 import 'package:calme/injector/injector.dart';
 import 'package:calme/l10n/l10n.dart';
 import 'package:calme/routes/router.gr.dart';
@@ -21,7 +20,6 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:unicons/unicons.dart';
 
 import '../../../../widgets/custom_text_field.dart';
-import '../../../../widgets/rounded_button.dart';
 
 class JournalPage extends StatefulWidget {
   const JournalPage({Key? key}) : super(key: key);

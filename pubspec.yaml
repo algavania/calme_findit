@@ -37,6 +37,7 @@ dependencies:
   shared_preferences: ^2.2.3
   firebase_auth: ^4.19.5
   flutter_card_swiper: ^7.0.1
+  audioplayers: ^6.0.0
 
 dev_dependencies:
   flutter_test:

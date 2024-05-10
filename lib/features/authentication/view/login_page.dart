@@ -81,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(height: 5.h),
                       CustomTextField(
+                        textInputType: TextInputType.emailAddress,
                         controller: _emailController,
                         label: AppLocalizations.of(context).yourEmail,
                         hint: AppLocalizations.of(context).enterEmail,

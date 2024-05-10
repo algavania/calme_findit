@@ -1,3 +1,5 @@
+import 'package:calme/data/models/meditation/meditation_model.dart';
+import 'package:calme/util/extensions.dart';
 import 'package:calme/widgets/glowing_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -9,10 +11,11 @@ import 'step_card_widget.dart';
 
 class MeditationCardWidget extends StatefulWidget {
   const MeditationCardWidget({
-    super.key, this.cardColor = ColorValues.secondary50, this.imageUrl = 'assets/home/stay_home.svg',
+    super.key,
+    required this.meditationModel,
   });
-  final Color cardColor;
-  final String imageUrl;
+
+  final MeditationModel meditationModel;
 
   @override
   State<MeditationCardWidget> createState() => _MeditationCardWidgetState();
@@ -23,17 +26,21 @@ class _MeditationCardWidgetState extends State<MeditationCardWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final color = widget.meditationModel.colorCode.hexToColor();
     return Column(
       children: [
         Container(
           decoration: BoxDecoration(
-              color: widget.cardColor,
+              color: color,
               borderRadius: BorderRadius.circular(Styles.defaultBorder)),
           padding: const EdgeInsets.all(Styles.defaultPadding),
           width: MediaQuery.of(context).size.width,
           child: Row(
             children: [
-              GlowingImageWidget(imageUrl: widget.imageUrl, cardColor: widget.cardColor),
+              GlowingImageWidget(
+                  imageUrl: widget.meditationModel.thumbnailUrl,
+                  isNetwork: true,
+                  cardColor: color),
               const SizedBox(width: Styles.defaultSpacing),
               Expanded(
                 child: Column(
@@ -41,22 +48,23 @@ class _MeditationCardWidgetState extends State<MeditationCardWidget> {
                   children: [
                     RichText(
                         text: TextSpan(
-                            text: 'Tenang di Rumah',
+                            text: widget.meditationModel.title,
                             style: Theme.of(context)
                                 .textTheme
                                 .displaySmall
                                 ?.copyWith(color: Colors.white),
                             children: [
-                              const TextSpan(text: '    •    '),
-                              TextSpan(
-                                  text: '3 sesi',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(color: Colors.white))
-                            ])),
+                          const TextSpan(text: '    •    '),
+                          TextSpan(
+                              text:
+                                  '${widget.meditationModel.sessions.length} sesi',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(color: Colors.white))
+                        ])),
                     const SizedBox(height: Styles.smallerSpacing),
-                    Text('Menenangkan pikiran di rumah',
+                    Text(widget.meditationModel.subtitle,
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall
@@ -73,9 +81,9 @@ class _MeditationCardWidgetState extends State<MeditationCardWidget> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      color: ColorValues.lighten(widget.cardColor, 20),
-                      borderRadius: BorderRadius.circular(Styles.smallerBorder)
-                  ),
+                      color: ColorValues.lighten(color, 20),
+                      borderRadius:
+                          BorderRadius.circular(Styles.smallerBorder)),
                   padding: const EdgeInsets.all(Styles.smallerSpacing),
                   child: Icon(
                     _isOpened ? UniconsSolid.angle_up : UniconsSolid.angle_down,
@@ -87,13 +95,40 @@ class _MeditationCardWidgetState extends State<MeditationCardWidget> {
           ),
         ),
         SizedBox(height: 2.h),
-        if (_isOpened) const Column(
-          children: [
-            StepCardWidget(imageUrl: 'assets/people/listening1.svg', isFirst: true, isActive: true, isNextDisabled: true),
-            StepCardWidget(imageUrl: 'assets/people/listening2.svg', isActive: false, isNextDisabled: true),
-            StepCardWidget(imageUrl: 'assets/people/dumbbell.svg', isLast: true, isActive: false),
-          ],
-        )
+        if (_isOpened)
+          Column(
+            children:
+                List.generate(widget.meditationModel.sessions.length, (index) {
+              final session = widget.meditationModel.sessions[index];
+              return StepCardWidget(
+                sessionModel: session,
+                meditationModel: widget.meditationModel,
+                sessionStep: '${index+1}/${widget.meditationModel.sessions.length}',
+                isFirst: index == 0,
+                isLast: index == widget.meditationModel.sessions.length - 1,
+                isNetwork: true,
+                isActive: true,
+              );
+            }),
+          ),
+        // if (_isOpened)
+        //   const Column(
+        //     children: [
+        //       StepCardWidget(
+        //           imageUrl: 'assets/people/listening1.svg',
+        //           isFirst: true,
+        //           isActive: true,
+        //           isNextDisabled: true),
+        //       StepCardWidget(
+        //           imageUrl: 'assets/people/listening2.svg',
+        //           isActive: false,
+        //           isNextDisabled: true),
+        //       StepCardWidget(
+        //           imageUrl: 'assets/people/dumbbell.svg',
+        //           isLast: true,
+        //           isActive: false),
+        //     ],
+        //   )
       ],
     );
   }

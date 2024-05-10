@@ -11,7 +11,7 @@ class CustomTextField extends StatefulWidget {
       this.isRequired = true,
       this.isPassword = false,
       this.isDense = false,
-      this.isRounded = false,
+      this.isRounded = true,
       this.expands = false,
       this.autofocus = false,
       this.label,

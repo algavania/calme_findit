@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:calme/core/color_values.dart';
 import 'package:calme/core/styles.dart';
+import 'package:calme/data/models/meditation/meditation_model.dart';
 import 'package:calme/l10n/l10n.dart';
 import 'package:calme/routes/router.gr.dart';
+import 'package:calme/widgets/custom_app_bar.dart';
 import 'package:calme/widgets/custom_button.dart';
 import 'package:calme/widgets/custom_text_field.dart';
 import 'package:calme/widgets/glowing_image_widget.dart';
@@ -25,16 +27,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: GestureDetector(
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: AppLocalizations.of(context).home,
+      ),
+      body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
         child: SingleChildScrollView(
           child: Column(
             children: [
-              _buildTopSearchWidget(),
-              const SizedBox(height: Styles.defaultSpacing),
               _buildDayIntroductionSectionWidget(),
               const SizedBox(height: Styles.defaultSpacing),
               _buildMeditationSectionWidget(),
@@ -200,6 +203,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildOtherMeditationSectionWidget() {
+    final dummyModel = generateMockMeditationModel();
     return Container(
       color: Colors.white,
       width: MediaQuery.of(context).size.width,
@@ -234,11 +238,11 @@ class _HomePageState extends State<HomePage> {
                 ?.copyWith(color: ColorValues.grey50),
           ),
           const SizedBox(height: Styles.biggerSpacing),
-          const MeditationCardWidget(),
+          MeditationCardWidget(meditationModel: dummyModel,),
           const SizedBox(height: Styles.smallerSpacing),
-          const MeditationCardWidget(cardColor: ColorValues.pink50),
+          MeditationCardWidget(meditationModel: dummyModel),
           const SizedBox(height: Styles.smallerSpacing),
-          const MeditationCardWidget(cardColor: ColorValues.primary50),
+          MeditationCardWidget(meditationModel: dummyModel),
         ],
       ),
     );
@@ -265,7 +269,7 @@ class _HomePageState extends State<HomePage> {
                 ?.copyWith(color: ColorValues.grey50),
           ),
           const SizedBox(height: Styles.biggerSpacing),
-          const MeditationCardWidget()
+          MeditationCardWidget(meditationModel: generateMockMeditationModel(),)
         ],
       ),
     );
