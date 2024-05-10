@@ -1,11 +1,23 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:calme/core/color_values.dart';
 import 'package:calme/core/styles.dart';
+import 'package:calme/data/models/journal/journal_model.dart';
+import 'package:calme/features/journal/bloc/journal_bloc.dart';
+import 'package:calme/features/journal/data/repository/journal_repository.dart';
+import 'package:calme/features/journal/journal.dart';
+import 'package:calme/injector/injector.dart';
 import 'package:calme/l10n/l10n.dart';
+import 'package:calme/routes/router.gr.dart';
+import 'package:calme/util/extensions.dart';
+import 'package:calme/widgets/custom_app_bar.dart';
 import 'package:calme/widgets/glowing_image_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:sizer/sizer.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:unicons/unicons.dart';
 
 import '../../../../widgets/custom_text_field.dart';
@@ -20,34 +32,53 @@ class JournalPage extends StatefulWidget {
 
 class _JournalPageState extends State<JournalPage> {
   final TextEditingController _searchController = TextEditingController();
+  final _bloc = JournalBloc(repository: Injector.instance<JournalRepository>());
+
+  @override
+  void initState() {
+    _bloc.add(const JournalEvent.getAllJournals());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Column(
-          children: [
-            const SizedBox(height: Styles.defaultPadding),
-            _buildAppBar(),
-            const SizedBox(height: Styles.defaultSpacing),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _buildTopSearchWidget(),
-                    const SizedBox(height: Styles.defaultSpacing),
-                    _buildMyJournalCardWidget(),
-                    const SizedBox(height: Styles.defaultSpacing),
-                    _buildJournalSectionWidget(),
-                    const SizedBox(height: Styles.defaultSpacing),
-                  ],
+    return BlocListener<JournalBloc, JournalState>(
+      bloc: _bloc,
+      listener: (context, state) {
+        state.maybeMap(
+            error: (s) {
+              context.loaderOverlay.hide();
+              context.showSnackBar(message: s.error, isSuccess: false);
+            },
+            orElse: () {});
+      },
+      child: SafeArea(
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Column(
+            children: [
+              CustomAppBar(
+                title: AppLocalizations.of(context).journal,
+              ),
+              const SizedBox(height: Styles.defaultSpacing),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      // _buildTopSearchWidget(),
+                      // const SizedBox(height: Styles.defaultSpacing),
+                      // _buildMyJournalCardWidget(),
+                      // const SizedBox(height: Styles.defaultSpacing),
+                      _buildJournalSectionWidget(),
+                      const SizedBox(height: Styles.defaultSpacing),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -64,16 +95,25 @@ class _JournalPageState extends State<JournalPage> {
       padding: const EdgeInsets.all(Styles.contentPadding),
       child: Row(
         children: [
-          Expanded(child: Column(
+          Expanded(
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(AppLocalizations.of(context).journalTitle1, style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Colors.white
-              ),),
+              Text(
+                AppLocalizations.of(context).journalTitle1,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(color: Colors.white),
+              ),
               const SizedBox(height: Styles.smallerSpacing),
-              Text('13 halaman', style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Colors.white
-              ),),
+              Text(
+                '13 halaman',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: Colors.white),
+              ),
               const SizedBox(height: Styles.biggerSpacing),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -82,20 +122,27 @@ class _JournalPageState extends State<JournalPage> {
                     lineHeight: 20,
                     width: 40.w,
                     barRadius: const Radius.circular(Styles.defaultBorder),
-                    percent: 3/13,
+                    percent: 3 / 13,
                     backgroundColor: Colors.white,
                     progressColor: ColorValues.secondary50,
                   ),
-                  Text('3/13', style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                      color: Colors.white
-                  ),),
+                  Text(
+                    '3/13',
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall
+                        ?.copyWith(color: Colors.white),
+                  ),
                   const SizedBox(width: Styles.defaultSpacing),
                 ],
               )
             ],
           )),
           const SizedBox(width: Styles.defaultSpacing),
-          SvgPicture.asset('assets/people/journal_question.svg', width: 25.w,)
+          SvgPicture.asset(
+            'assets/people/journal_question.svg',
+            width: 25.w,
+          )
         ],
       ),
     );
@@ -127,16 +174,16 @@ class _JournalPageState extends State<JournalPage> {
                 ?.copyWith(color: ColorValues.grey50),
           ),
           const SizedBox(height: Styles.biggerSpacing),
-          _buildJournalItemCardWidget(
-            title: AppLocalizations.of(context).journalTitle1,
-            subtitle: AppLocalizations.of(context).journalSubtitle1,
-            imageUrl: 'assets/people/journal_question.svg'
-          ),
-          const SizedBox(height: Styles.defaultSpacing),
-          _buildJournalItemCardWidget(
-              title: AppLocalizations.of(context).journalTitle2,
-              subtitle: AppLocalizations.of(context).journalSubtitle2,
-              imageUrl: 'assets/people/meditation.svg'
+          BlocBuilder<JournalBloc, JournalState>(
+            bloc: _bloc,
+            builder: (context, state) {
+              final dummyList =
+                  List.generate(5, (_) => generateMockJournalModel());
+              return state.maybeMap(
+                loaded: (s) => _buildList(s.list, false),
+                orElse: () => _buildList(dummyList, true),
+              );
+            },
           ),
           const SizedBox(height: Styles.smallerSpacing),
         ],
@@ -144,10 +191,26 @@ class _JournalPageState extends State<JournalPage> {
     );
   }
 
-  Widget _buildJournalItemCardWidget(
-      {required String title,
-      required String subtitle,
-      required String imageUrl}) {
+  Widget _buildList(List<JournalModel> list, bool isLoading) {
+    return Skeletonizer(
+      enabled: isLoading,
+      child: ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (_, i) => GestureDetector(
+              onTap: () {
+                AutoRouter.of(context)
+                    .push(JournalStartRoute(journalModel: list[i]));
+              },
+              child: _buildJournalItemCardWidget(list[i])),
+          separatorBuilder: (_, __) => const SizedBox(
+                height: Styles.defaultSpacing,
+              ),
+          itemCount: list.length),
+    );
+  }
+
+  Widget _buildJournalItemCardWidget(JournalModel journal) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -160,8 +223,9 @@ class _JournalPageState extends State<JournalPage> {
         children: [
           GlowingImageWidget(
             cardColor: Theme.of(context).primaryColor,
-            imageUrl: imageUrl,
+            imageUrl: journal.thumbnailUrl,
             imageSize: 8.w,
+            isNetwork: true,
           ),
           const SizedBox(width: Styles.biggerSpacing),
           Expanded(
@@ -169,14 +233,14 @@ class _JournalPageState extends State<JournalPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                journal.title,
                 style: Theme.of(context).textTheme.displaySmall,
               ),
               const SizedBox(
                 height: Styles.smallerSpacing,
               ),
               Text(
-                subtitle,
+                journal.subtitle,
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall
@@ -191,42 +255,12 @@ class _JournalPageState extends State<JournalPage> {
 
   Widget _buildTopSearchWidget() {
     return Padding(
-      padding:
-          const EdgeInsets.symmetric(horizontal: Styles.defaultPadding),
+      padding: const EdgeInsets.symmetric(horizontal: Styles.defaultPadding),
       child: CustomTextField(
         controller: _searchController,
         hint: AppLocalizations.of(context).findInterestingJournal,
         icon: UniconsLine.search,
         isDense: true,
-      ),
-    );
-  }
-
-  Widget _buildAppBar() {
-    return Padding(
-      padding:
-          const EdgeInsets.symmetric(horizontal: Styles.defaultPadding),
-      child: Row(
-        children: [
-          RoundedButton(
-              child: Image.asset(
-            'assets/core/logo.png',
-            width: 30,
-          )),
-          Expanded(
-              child: Text(
-            AppLocalizations.of(context).journal,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.labelLarge,
-          )),
-          RoundedButton(
-              border: Border.all(color: ColorValues.secondary50),
-              onTap: () {},
-              child: const Icon(
-                UniconsLine.history,
-                color: ColorValues.secondary50,
-              )),
-        ],
       ),
     );
   }

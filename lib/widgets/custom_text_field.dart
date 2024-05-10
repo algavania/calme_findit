@@ -11,10 +11,16 @@ class CustomTextField extends StatefulWidget {
       this.isRequired = true,
       this.isPassword = false,
       this.isDense = false,
+      this.isRounded = false,
+      this.expands = false,
+      this.autofocus = false,
       this.label,
       this.hint,
       this.icon,
-      this.textInputType, this.onChanged})
+      this.textInputType,
+      this.onChanged,
+      this.maxLines = 1,
+      this.minLines = 1, this.focusNode})
       : super(key: key);
   final TextEditingController controller;
   final String? Function(String?)? validator;
@@ -24,6 +30,12 @@ class CustomTextField extends StatefulWidget {
   final String? hint;
   final IconData? icon;
   final TextInputType? textInputType;
+  final bool isRounded;
+  final bool expands;
+  final bool autofocus;
+  final int? maxLines;
+  final int? minLines;
+  final FocusNode? focusNode;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -32,10 +44,13 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   bool _isShowPassword = true;
 
-  OutlineInputBorder _getBorder({Color color = ColorValues.primary10}) {
-    return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: color, width: 1));
+  InputBorder _getBorder({Color color = ColorValues.primary10}) {
+    return widget.isRounded
+        ? OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(color: color, width: 1))
+        : const UnderlineInputBorder(
+            borderSide: BorderSide(width: 0, color: Colors.transparent));
   }
 
   @override
@@ -43,17 +58,23 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (widget.label != null) RichText(
-            text: TextSpan(
-                text: widget.label,
-                style: Theme.of(context).textTheme.displaySmall,
-                children: [
-              if (widget.isRequired)
-                const TextSpan(
-                    text: '*', style: TextStyle(color: ColorValues.danger50))
-            ])),
+        if (widget.label != null)
+          RichText(
+              text: TextSpan(
+                  text: widget.label,
+                  style: Theme.of(context).textTheme.displaySmall,
+                  children: [
+                if (widget.isRequired)
+                  const TextSpan(
+                      text: '*', style: TextStyle(color: ColorValues.danger50))
+              ])),
         if (widget.label != null) const SizedBox(height: 8),
         TextFormField(
+          focusNode: widget.focusNode,
+          autofocus: widget.autofocus,
+          minLines: widget.minLines,
+          maxLines: widget.maxLines,
+          expands: widget.expands,
           onChanged: widget.onChanged,
           controller: widget.controller,
           validator: widget.validator,
@@ -70,15 +91,20 @@ class _CustomTextFieldState extends State<CustomTextField> {
             fillColor: Colors.white,
             border: _getBorder(),
             isDense: widget.isDense,
-            focusedBorder: _getBorder(color: ColorValues.primary50),
+            focusedBorder: _getBorder(
+                color: widget.isRounded
+                    ? ColorValues.primary50
+                    : Colors.transparent),
             enabledBorder: _getBorder(),
             disabledBorder: _getBorder(),
             errorBorder: _getBorder(color: ColorValues.danger50),
             focusedErrorBorder: _getBorder(color: ColorValues.danger50),
-            prefixIcon: widget.icon == null ? null : Icon(
-              widget.icon,
-              size: 5.5.w,
-            ),
+            prefixIcon: widget.icon == null
+                ? null
+                : Icon(
+                    widget.icon,
+                    size: 5.5.w,
+                  ),
             prefixIconConstraints: const BoxConstraints(
               minWidth: 60,
             ),

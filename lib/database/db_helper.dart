@@ -11,4 +11,5 @@ class DbHelper {
   static const sessions = 'sessions';
   static const questions = 'questions';
   static const journals = 'journals';
+  static const journalAnswers = 'answers';
 }

@@ -67,6 +67,14 @@ import 'package:calme/features/pages.dart';
         path: '/chatbot',
         page: ChatbotPage,
         transitionsBuilder: TransitionsBuilders.fadeIn),
+    CustomRoute(
+        path: '/detail-journal',
+        page: JournalDetailPage,
+        transitionsBuilder: TransitionsBuilders.fadeIn),
+    CustomRoute(
+        path: '/journal-start',
+        page: JournalStartPage,
+        transitionsBuilder: TransitionsBuilders.fadeIn),
   ],
 )
 class $AppRouter {}

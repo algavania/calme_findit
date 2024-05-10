@@ -43,7 +43,7 @@ class _CustomButtonState extends State<CustomButton> {
               if (widget.prefixIcon != null) const SizedBox(width: Styles.smallerSpacing),
               Text(
                 widget.buttonText,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: widget.fontSize, color: widget.isWhiteButton ? ColorValues.text50 : Colors.white),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: widget.fontSize ?? 14, color: widget.isWhiteButton ? ColorValues.text50 : Colors.white),
               ),
             ],
           ),

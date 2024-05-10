@@ -114,7 +114,7 @@ class AppThemeData {
           titleSmall: GoogleFonts.plusJakartaSans(
               color: ColorValues.text50,
               fontSize: 13,
-              fontWeight: FontWeight.w500),
+              fontWeight: FontWeight.bold),
           bodyLarge: GoogleFonts.plusJakartaSans(
               color: ColorValues.text50,
               fontSize: 19,
@@ -125,7 +125,7 @@ class AppThemeData {
               fontWeight: FontWeight.w400),
           labelLarge: GoogleFonts.plusJakartaSans(
               color: ColorValues.text50,
-              fontSize: 14,
+              fontSize: 18,
               fontWeight: FontWeight.bold),
           bodySmall: GoogleFonts.plusJakartaSans(
               color: ColorValues.text50,
