@@ -1,7 +1,7 @@
 import 'package:calme/core/color_values.dart';
 import 'package:flutter/material.dart';
 
-import '../core/ui_constant.dart';
+import '../core/styles.dart';
 
 class RoundedButton extends StatefulWidget {
   const RoundedButton({Key? key, this.onTap, this.withOnlineIndicator = false, this.size = 48, this.border, required this.child, this.color}) : super(key: key);
@@ -30,7 +30,7 @@ class _RoundedButtonState extends State<RoundedButton> {
             decoration: BoxDecoration(
                 color: widget.color ?? Colors.white,
                 border: widget.border,
-                borderRadius: BorderRadius.circular(UiConstant.defaultBorder)
+                borderRadius: BorderRadius.circular(Styles.defaultBorder)
             ),
             child: Center(
               child: widget.child,

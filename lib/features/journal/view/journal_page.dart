@@ -1,5 +1,5 @@
 import 'package:calme/core/color_values.dart';
-import 'package:calme/core/ui_constant.dart';
+import 'package:calme/core/styles.dart';
 import 'package:calme/l10n/l10n.dart';
 import 'package:calme/widgets/glowing_image_widget.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +8,8 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:sizer/sizer.dart';
 import 'package:unicons/unicons.dart';
 
-import '../../../widgets/custom_text_field.dart';
-import '../../../widgets/rounded_button.dart';
+import '../../../../widgets/custom_text_field.dart';
+import '../../../../widgets/rounded_button.dart';
 
 class JournalPage extends StatefulWidget {
   const JournalPage({Key? key}) : super(key: key);
@@ -30,19 +30,19 @@ class _JournalPageState extends State<JournalPage> {
         },
         child: Column(
           children: [
-            const SizedBox(height: UiConstant.defaultPadding),
+            const SizedBox(height: Styles.defaultPadding),
             _buildAppBar(),
-            const SizedBox(height: UiConstant.defaultSpacing),
+            const SizedBox(height: Styles.defaultSpacing),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     _buildTopSearchWidget(),
-                    const SizedBox(height: UiConstant.defaultSpacing),
+                    const SizedBox(height: Styles.defaultSpacing),
                     _buildMyJournalCardWidget(),
-                    const SizedBox(height: UiConstant.defaultSpacing),
+                    const SizedBox(height: Styles.defaultSpacing),
                     _buildJournalSectionWidget(),
-                    const SizedBox(height: UiConstant.defaultSpacing),
+                    const SizedBox(height: Styles.defaultSpacing),
                   ],
                 ),
               ),
@@ -55,13 +55,13 @@ class _JournalPageState extends State<JournalPage> {
 
   Widget _buildMyJournalCardWidget() {
     return Container(
-      margin: const EdgeInsets.all(UiConstant.defaultPadding),
+      margin: const EdgeInsets.all(Styles.defaultPadding),
       decoration: BoxDecoration(
         color: ColorValues.primary30,
-        borderRadius: BorderRadius.circular(UiConstant.biggerBorder),
+        borderRadius: BorderRadius.circular(Styles.biggerBorder),
         border: Border.all(color: ColorValues.primary40, width: 14),
       ),
-      padding: const EdgeInsets.all(UiConstant.contentPadding),
+      padding: const EdgeInsets.all(Styles.contentPadding),
       child: Row(
         children: [
           Expanded(child: Column(
@@ -70,18 +70,18 @@ class _JournalPageState extends State<JournalPage> {
               Text(AppLocalizations.of(context).journalTitle1, style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: Colors.white
               ),),
-              const SizedBox(height: UiConstant.smallerSpacing),
+              const SizedBox(height: Styles.smallerSpacing),
               Text('13 halaman', style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Colors.white
               ),),
-              const SizedBox(height: UiConstant.biggerSpacing),
+              const SizedBox(height: Styles.biggerSpacing),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   LinearPercentIndicator(
                     lineHeight: 20,
                     width: 40.w,
-                    barRadius: const Radius.circular(UiConstant.defaultBorder),
+                    barRadius: const Radius.circular(Styles.defaultBorder),
                     percent: 3/13,
                     backgroundColor: Colors.white,
                     progressColor: ColorValues.secondary50,
@@ -89,12 +89,12 @@ class _JournalPageState extends State<JournalPage> {
                   Text('3/13', style: Theme.of(context).textTheme.displaySmall?.copyWith(
                       color: Colors.white
                   ),),
-                  const SizedBox(width: UiConstant.defaultSpacing),
+                  const SizedBox(width: Styles.defaultSpacing),
                 ],
               )
             ],
           )),
-          const SizedBox(width: UiConstant.defaultSpacing),
+          const SizedBox(width: Styles.defaultSpacing),
           SvgPicture.asset('assets/people/journal_question.svg', width: 25.w,)
         ],
       ),
@@ -104,7 +104,7 @@ class _JournalPageState extends State<JournalPage> {
   Widget _buildJournalSectionWidget() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(UiConstant.defaultPadding),
+      padding: const EdgeInsets.all(Styles.defaultPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -118,7 +118,7 @@ class _JournalPageState extends State<JournalPage> {
               ),
             ],
           ),
-          const SizedBox(height: UiConstant.mediumSpacing),
+          const SizedBox(height: Styles.mediumSpacing),
           Text(
             AppLocalizations.of(context).journalText1,
             style: Theme.of(context)
@@ -126,19 +126,19 @@ class _JournalPageState extends State<JournalPage> {
                 .bodySmall
                 ?.copyWith(color: ColorValues.grey50),
           ),
-          const SizedBox(height: UiConstant.biggerSpacing),
+          const SizedBox(height: Styles.biggerSpacing),
           _buildJournalItemCardWidget(
             title: AppLocalizations.of(context).journalTitle1,
             subtitle: AppLocalizations.of(context).journalSubtitle1,
             imageUrl: 'assets/people/journal_question.svg'
           ),
-          const SizedBox(height: UiConstant.defaultSpacing),
+          const SizedBox(height: Styles.defaultSpacing),
           _buildJournalItemCardWidget(
               title: AppLocalizations.of(context).journalTitle2,
               subtitle: AppLocalizations.of(context).journalSubtitle2,
               imageUrl: 'assets/people/meditation.svg'
           ),
-          const SizedBox(height: UiConstant.smallerSpacing),
+          const SizedBox(height: Styles.smallerSpacing),
         ],
       ),
     );
@@ -151,10 +151,10 @@ class _JournalPageState extends State<JournalPage> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(UiConstant.defaultBorder),
+        borderRadius: BorderRadius.circular(Styles.defaultBorder),
         border: Border.all(color: ColorValues.grey10),
       ),
-      padding: const EdgeInsets.all(UiConstant.contentPadding),
+      padding: const EdgeInsets.all(Styles.contentPadding),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -163,7 +163,7 @@ class _JournalPageState extends State<JournalPage> {
             imageUrl: imageUrl,
             imageSize: 8.w,
           ),
-          const SizedBox(width: UiConstant.biggerSpacing),
+          const SizedBox(width: Styles.biggerSpacing),
           Expanded(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,7 +173,7 @@ class _JournalPageState extends State<JournalPage> {
                 style: Theme.of(context).textTheme.displaySmall,
               ),
               const SizedBox(
-                height: UiConstant.smallerSpacing,
+                height: Styles.smallerSpacing,
               ),
               Text(
                 subtitle,
@@ -192,7 +192,7 @@ class _JournalPageState extends State<JournalPage> {
   Widget _buildTopSearchWidget() {
     return Padding(
       padding:
-          const EdgeInsets.symmetric(horizontal: UiConstant.defaultPadding),
+          const EdgeInsets.symmetric(horizontal: Styles.defaultPadding),
       child: CustomTextField(
         controller: _searchController,
         hint: AppLocalizations.of(context).findInterestingJournal,
@@ -205,7 +205,7 @@ class _JournalPageState extends State<JournalPage> {
   Widget _buildAppBar() {
     return Padding(
       padding:
-          const EdgeInsets.symmetric(horizontal: UiConstant.defaultPadding),
+          const EdgeInsets.symmetric(horizontal: Styles.defaultPadding),
       child: Row(
         children: [
           RoundedButton(

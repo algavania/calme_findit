@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../core/color_values.dart';
-import '../../core/ui_constant.dart';
+import '../../../core/color_values.dart';
+import '../../../core/styles.dart';
 
 class SliderPage extends StatelessWidget {
   final String title;
@@ -18,7 +18,7 @@ class SliderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: UiConstant.defaultPadding),
+      margin: const EdgeInsets.symmetric(horizontal: Styles.defaultPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,

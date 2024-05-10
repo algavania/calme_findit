@@ -7,6 +7,7 @@ class ColorValues {
   static const primary30 = Color(0xFF67D6EB);
   static const primary20 = Color(0xFF9AE4F1);
   static const primary10 = Color(0xFFCCF1F8);
+  static const white = Color(0xFFFFFFFF);
   static const grey50 = Color(0xFF5F6265);
   static const grey30 = Color(0xFF9FA1A3);
   static const grey20 = Color(0xFFBFC0C1);

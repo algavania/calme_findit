@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:calme/core/color_values.dart';
-import 'package:calme/core/ui_constant.dart';
+import 'package:calme/core/styles.dart';
 import 'package:calme/l10n/l10n.dart';
 import 'package:calme/widgets/custom_button.dart';
 import 'package:calme/widgets/custom_text_field.dart';
@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:unicons/unicons.dart';
 
-import '../../routes/router.gr.dart';
-import '../../widgets/logo_widget.dart';
+import '../../../routes/router.gr.dart';
+import '../../../widgets/logo_widget.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -37,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 SliverFillRemaining(
                   hasScrollBody: false,
                   child: Container(
-                    margin: const EdgeInsets.all(UiConstant.defaultPadding),
+                    margin: const EdgeInsets.all(Styles.defaultPadding),
                     child: Column(
                       children: [
                         SizedBox(height: 5.h),

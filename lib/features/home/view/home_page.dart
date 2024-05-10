@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:calme/core/color_values.dart';
-import 'package:calme/core/ui_constant.dart';
+import 'package:calme/core/styles.dart';
 import 'package:calme/l10n/l10n.dart';
 import 'package:calme/routes/router.gr.dart';
 import 'package:calme/widgets/custom_button.dart';
@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:unicons/unicons.dart';
 
-import '../../../widgets/article_card_widget.dart';
-import '../../../widgets/meditation_card_widget.dart';
+import '../../../../widgets/article_card_widget.dart';
+import '../../../../widgets/meditation_card_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -34,19 +34,19 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               _buildTopSearchWidget(),
-              const SizedBox(height: UiConstant.defaultSpacing),
+              const SizedBox(height: Styles.defaultSpacing),
               _buildDayIntroductionSectionWidget(),
-              const SizedBox(height: UiConstant.defaultSpacing),
+              const SizedBox(height: Styles.defaultSpacing),
               _buildMeditationSectionWidget(),
-              const SizedBox(height: UiConstant.defaultSpacing),
+              const SizedBox(height: Styles.defaultSpacing),
               _buildOtherMeditationSectionWidget(),
-              const SizedBox(height: UiConstant.defaultSpacing),
+              const SizedBox(height: Styles.defaultSpacing),
               _buildBreathingExerciseSectionWidget(),
-              const SizedBox(height: UiConstant.defaultSpacing),
+              const SizedBox(height: Styles.defaultSpacing),
               _buildArticleSectionWidget(),
-              const SizedBox(height: UiConstant.defaultSpacing),
+              const SizedBox(height: Styles.defaultSpacing),
               _buildCopingToolboxWidget(),
-              const SizedBox(height: UiConstant.defaultSpacing),
+              const SizedBox(height: Styles.defaultSpacing),
             ],
           ),
         ),
@@ -59,11 +59,11 @@ class _HomePageState extends State<HomePage> {
     return Container(
       color: color,
       width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(UiConstant.defaultPadding),
+      padding: const EdgeInsets.all(Styles.defaultPadding),
       child: Row(
         children: [
           GlowingImageWidget(cardColor: color, imageUrl: 'assets/home/gift.svg',),
-          const SizedBox(width: UiConstant.defaultSpacing),
+          const SizedBox(width: Styles.defaultSpacing),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.white
                   ),
                 ),
-                const SizedBox(height: UiConstant.defaultSpacing,),
+                const SizedBox(height: Styles.defaultSpacing,),
                 Text(AppLocalizations.of(context).copingText,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Colors.white
@@ -82,16 +82,16 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          const SizedBox(width: UiConstant.defaultSpacing),
+          const SizedBox(width: Styles.defaultSpacing),
           InkWell(
             onTap: () {
             },
             child: Container(
               decoration: BoxDecoration(
                   color: ColorValues.lighten(color, 20),
-                  borderRadius: BorderRadius.circular(UiConstant.smallerBorder)
+                  borderRadius: BorderRadius.circular(Styles.smallerBorder)
               ),
-              padding: const EdgeInsets.all(UiConstant.smallerSpacing),
+              padding: const EdgeInsets.all(Styles.smallerSpacing),
               child: const Icon(
                 UniconsSolid.angle_right_b,
                 color: Colors.white,
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       color: Colors.white,
       width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(UiConstant.defaultPadding),
+      padding: const EdgeInsets.all(Styles.defaultPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage> {
               )
             ],
           ),
-          const SizedBox(height: UiConstant.mediumSpacing),
+          const SizedBox(height: Styles.mediumSpacing),
           Text(
             AppLocalizations.of(context).articleSectionText2,
             style: Theme.of(context)
@@ -137,9 +137,9 @@ class _HomePageState extends State<HomePage> {
                 .bodySmall
                 ?.copyWith(color: ColorValues.grey50),
           ),
-          const SizedBox(height: UiConstant.biggerSpacing),
+          const SizedBox(height: Styles.biggerSpacing),
           const ArticleCardWidget(),
-          const SizedBox(height: UiConstant.smallerSpacing),
+          const SizedBox(height: Styles.smallerSpacing),
         ],
       ),
     );
@@ -154,7 +154,7 @@ class _HomePageState extends State<HomePage> {
         )
       ),
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: UiConstant.biggerPadding, horizontal: UiConstant.defaultPadding),
+      padding: const EdgeInsets.symmetric(vertical: Styles.biggerPadding, horizontal: Styles.defaultPadding),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -170,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                       .labelLarge
                       ?.copyWith(color: Colors.white),
                 ),
-                const SizedBox(height: UiConstant.defaultSpacing),
+                const SizedBox(height: Styles.defaultSpacing),
                 Text(
                   AppLocalizations.of(context).breathingExerciseText,
                   style: Theme.of(context)
@@ -202,7 +202,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       color: Colors.white,
       width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(UiConstant.defaultPadding),
+      padding: const EdgeInsets.all(Styles.defaultPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -224,7 +224,7 @@ class _HomePageState extends State<HomePage> {
               )
             ],
           ),
-          const SizedBox(height: UiConstant.mediumSpacing),
+          const SizedBox(height: Styles.mediumSpacing),
           Text(
             AppLocalizations.of(context).viewPlaylistText,
             style: Theme.of(context)
@@ -232,11 +232,11 @@ class _HomePageState extends State<HomePage> {
                 .bodySmall
                 ?.copyWith(color: ColorValues.grey50),
           ),
-          const SizedBox(height: UiConstant.biggerSpacing),
+          const SizedBox(height: Styles.biggerSpacing),
           const MeditationCardWidget(),
-          const SizedBox(height: UiConstant.smallerSpacing),
+          const SizedBox(height: Styles.smallerSpacing),
           const MeditationCardWidget(cardColor: ColorValues.pink50),
-          const SizedBox(height: UiConstant.smallerSpacing),
+          const SizedBox(height: Styles.smallerSpacing),
           const MeditationCardWidget(cardColor: ColorValues.primary50),
         ],
       ),
@@ -247,7 +247,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       color: Colors.white,
       width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(UiConstant.defaultPadding),
+      padding: const EdgeInsets.all(Styles.defaultPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -255,7 +255,7 @@ class _HomePageState extends State<HomePage> {
             AppLocalizations.of(context).meditationSectionText1,
             style: Theme.of(context).textTheme.labelLarge,
           ),
-          const SizedBox(height: UiConstant.mediumSpacing),
+          const SizedBox(height: Styles.mediumSpacing),
           Text(
             AppLocalizations.of(context).meditationSectionText2,
             style: Theme.of(context)
@@ -263,7 +263,7 @@ class _HomePageState extends State<HomePage> {
                 .bodySmall
                 ?.copyWith(color: ColorValues.grey50),
           ),
-          const SizedBox(height: UiConstant.biggerSpacing),
+          const SizedBox(height: Styles.biggerSpacing),
           const MeditationCardWidget()
         ],
       ),
@@ -282,7 +282,7 @@ class _HomePageState extends State<HomePage> {
                 'assets/home/intro_bg.png',
               ))),
       child: Container(
-        padding: const EdgeInsets.all(UiConstant.defaultPadding),
+        padding: const EdgeInsets.all(Styles.defaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -332,7 +332,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildTopSearchWidget() {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.all(UiConstant.defaultPadding),
+      padding: const EdgeInsets.all(Styles.defaultPadding),
       child: Row(
         children: [
           Expanded(
@@ -342,12 +342,12 @@ class _HomePageState extends State<HomePage> {
             icon: UniconsLine.search,
             isDense: true,
           )),
-          const SizedBox(width: UiConstant.defaultPadding),
+          const SizedBox(width: Styles.defaultPadding),
           Container(
             height: 7.h,
             width: 50,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(UiConstant.defaultBorder),
+                borderRadius: BorderRadius.circular(Styles.defaultBorder),
                 border: Border.all(color: ColorValues.primary10),
                 color: Theme.of(context).primaryColor),
           )

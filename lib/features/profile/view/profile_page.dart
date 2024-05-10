@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:calme/core/color_values.dart';
-import 'package:calme/core/ui_constant.dart';
+import 'package:calme/core/styles.dart';
 import 'package:calme/l10n/l10n.dart';
 import 'package:calme/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:unicons/unicons.dart';
 
-import '../../../widgets/rounded_button.dart';
+import '../../../../widgets/rounded_button.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -25,15 +25,15 @@ class _ProfilePageState extends State<ProfilePage> {
         },
         child: Column(
           children: [
-            const SizedBox(height: UiConstant.defaultPadding),
+            const SizedBox(height: Styles.defaultPadding),
             _buildAppBar(),
-            const SizedBox(height: UiConstant.defaultSpacing),
+            const SizedBox(height: Styles.defaultSpacing),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     _buildProfileBody(),
-                    const SizedBox(height: UiConstant.defaultSpacing),
+                    const SizedBox(height: Styles.defaultSpacing),
                   ],
                 ),
               ),
@@ -47,14 +47,14 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _buildProfileBody() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(UiConstant.defaultPadding),
+      padding: const EdgeInsets.all(Styles.defaultPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildUserInfo(),
-          const SizedBox(height: UiConstant.defaultSpacing),
+          const SizedBox(height: Styles.defaultSpacing),
           _buildMyActivity(),
-          const SizedBox(height: UiConstant.defaultSpacing),
+          const SizedBox(height: Styles.defaultSpacing),
           _buildHelpCenter(),
         ],
       ),
@@ -65,18 +65,18 @@ class _ProfilePageState extends State<ProfilePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: UiConstant.biggerSpacing),
+        const SizedBox(height: Styles.biggerSpacing),
         Text(AppLocalizations.of(context).myActivity,
             style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: UiConstant.biggerSpacing),
+        const SizedBox(height: Styles.biggerSpacing),
         _buildButton(
             icon: UniconsLine.history,
             text: AppLocalizations.of(context).journalHistory),
-        const SizedBox(height: UiConstant.defaultSpacing),
+        const SizedBox(height: Styles.defaultSpacing),
         _buildButton(
             icon: UniconsLine.bookmark,
             text: AppLocalizations.of(context).savedArticle),
-        const SizedBox(height: UiConstant.defaultSpacing),
+        const SizedBox(height: Styles.defaultSpacing),
         _buildButton(
             icon: UniconsLine.key_skeleton_alt,
             text: AppLocalizations.of(context).changePassword),
@@ -88,10 +88,10 @@ class _ProfilePageState extends State<ProfilePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: UiConstant.biggerSpacing),
+        const SizedBox(height: Styles.biggerSpacing),
         Text(AppLocalizations.of(context).helpCenter,
             style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: UiConstant.biggerSpacing),
+        const SizedBox(height: Styles.biggerSpacing),
         GestureDetector(
             onTap: () {
               AutoRouter.of(context).replace(const LoginRoute());
@@ -109,11 +109,11 @@ class _ProfilePageState extends State<ProfilePage> {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(UiConstant.defaultBorder),
+          borderRadius: BorderRadius.circular(Styles.defaultBorder),
           border: Border.all(color: borderColor ?? ColorValues.grey10)),
       padding: const EdgeInsets.symmetric(
-          vertical: UiConstant.contentPadding,
-          horizontal: UiConstant.defaultPadding),
+          vertical: Styles.contentPadding,
+          horizontal: Styles.defaultPadding),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -121,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
             icon,
             color: borderColor ?? Theme.of(context).primaryColor,
           ),
-          const SizedBox(width: UiConstant.defaultSpacing),
+          const SizedBox(width: Styles.defaultSpacing),
           Expanded(
               child: Text(
             text,
@@ -144,7 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
             color: ColorValues.primary50,
             onTap: () {},
             child: Container()),
-        const SizedBox(width: UiConstant.defaultSpacing),
+        const SizedBox(width: Styles.defaultSpacing),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -152,7 +152,7 @@ class _ProfilePageState extends State<ProfilePage> {
               'Fulan bin Fulan',
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            const SizedBox(height: UiConstant.smallerSpacing),
+            const SizedBox(height: Styles.smallerSpacing),
             Text(
               'fulan@gmail.com',
               style: Theme.of(context)
@@ -169,7 +169,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _buildAppBar() {
     return Padding(
       padding:
-          const EdgeInsets.symmetric(horizontal: UiConstant.defaultPadding),
+          const EdgeInsets.symmetric(horizontal: Styles.defaultPadding),
       child: Row(
         children: [
           RoundedButton(

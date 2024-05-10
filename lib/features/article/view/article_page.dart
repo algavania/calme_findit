@@ -1,12 +1,12 @@
 import 'package:calme/core/color_values.dart';
-import 'package:calme/core/ui_constant.dart';
+import 'package:calme/core/styles.dart';
 import 'package:calme/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:unicons/unicons.dart';
 
-import '../../../widgets/article_card_widget.dart';
-import '../../../widgets/custom_text_field.dart';
-import '../../../widgets/rounded_button.dart';
+import '../../../../widgets/article_card_widget.dart';
+import '../../../../widgets/custom_text_field.dart';
+import '../../../../widgets/rounded_button.dart';
 
 class ArticlePage extends StatefulWidget {
   const ArticlePage({Key? key}) : super(key: key);
@@ -27,17 +27,17 @@ class _ArticlePageState extends State<ArticlePage> {
         },
         child: Column(
           children: [
-            const SizedBox(height: UiConstant.defaultPadding),
+            const SizedBox(height: Styles.defaultPadding),
             _buildAppBar(),
-            const SizedBox(height: UiConstant.defaultSpacing),
+            const SizedBox(height: Styles.defaultSpacing),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     _buildTopSearchWidget(),
-                    const SizedBox(height: UiConstant.defaultSpacing),
+                    const SizedBox(height: Styles.defaultSpacing),
                     _buildArticleSectionWidget(),
-                    const SizedBox(height: UiConstant.defaultSpacing),
+                    const SizedBox(height: Styles.defaultSpacing),
                   ],
                 ),
               ),
@@ -55,7 +55,7 @@ class _ArticlePageState extends State<ArticlePage> {
           .of(context)
           .size
           .width,
-      padding: const EdgeInsets.all(UiConstant.defaultPadding),
+      padding: const EdgeInsets.all(Styles.defaultPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -74,7 +74,7 @@ class _ArticlePageState extends State<ArticlePage> {
               ),
             ],
           ),
-          const SizedBox(height: UiConstant.mediumSpacing),
+          const SizedBox(height: Styles.mediumSpacing),
           Text(
             AppLocalizations
                 .of(context)
@@ -85,15 +85,15 @@ class _ArticlePageState extends State<ArticlePage> {
                 .bodySmall
                 ?.copyWith(color: ColorValues.grey50),
           ),
-          const SizedBox(height: UiConstant.biggerSpacing),
+          const SizedBox(height: Styles.biggerSpacing),
           ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (_, __) => const ArticleCardWidget(),
               separatorBuilder: (_, __) =>
-              const SizedBox(height: UiConstant.biggerSpacing,),
+              const SizedBox(height: Styles.biggerSpacing,),
               itemCount: 1),
-          const SizedBox(height: UiConstant.smallerSpacing),
+          const SizedBox(height: Styles.smallerSpacing),
         ],
       ),
     );
@@ -102,7 +102,7 @@ class _ArticlePageState extends State<ArticlePage> {
   Widget _buildTopSearchWidget() {
     return Padding(
       padding:
-      const EdgeInsets.symmetric(horizontal: UiConstant.defaultPadding),
+      const EdgeInsets.symmetric(horizontal: Styles.defaultPadding),
       child: CustomTextField(
         controller: _searchController,
         hint: AppLocalizations
@@ -117,7 +117,7 @@ class _ArticlePageState extends State<ArticlePage> {
   Widget _buildAppBar() {
     return Padding(
       padding:
-      const EdgeInsets.symmetric(horizontal: UiConstant.defaultPadding),
+      const EdgeInsets.symmetric(horizontal: Styles.defaultPadding),
       child: Row(
         children: [
           RoundedButton(

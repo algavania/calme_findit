@@ -1,4 +1,4 @@
-import 'package:calme/core/ui_constant.dart';
+import 'package:calme/core/styles.dart';
 import 'package:flutter/material.dart';
 
 import '../core/color_values.dart';
@@ -30,7 +30,7 @@ class _CustomButtonState extends State<CustomButton> {
           elevation: 0,
           backgroundColor: widget.isWhiteButton ? Colors.white : Theme.of(context).primaryColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(UiConstant.defaultBorder),
+            borderRadius: BorderRadius.circular(Styles.defaultBorder),
             side: BorderSide(
               color: widget.isWhiteButton ? ColorValues.text20 : Theme.of(context).primaryColor,
             )
@@ -40,7 +40,7 @@ class _CustomButtonState extends State<CustomButton> {
           child: Row(
             children: [
               if (widget.prefixIcon != null) Icon(widget.prefixIcon, size: 18, color: widget.isWhiteButton ? ColorValues.text50 : Colors.white),
-              if (widget.prefixIcon != null) const SizedBox(width: UiConstant.smallerSpacing),
+              if (widget.prefixIcon != null) const SizedBox(width: Styles.smallerSpacing),
               Text(
                 widget.buttonText,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: widget.fontSize, color: widget.isWhiteButton ? ColorValues.text50 : Colors.white),

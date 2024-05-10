@@ -1,4 +1,4 @@
-class UiConstant {
+class Styles {
   static const double defaultPadding = 16;
   static const double biggerPadding = 20;
   static const double contentPadding = 12;

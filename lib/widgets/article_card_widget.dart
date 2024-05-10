@@ -5,7 +5,7 @@ import 'package:sizer/sizer.dart';
 import 'package:unicons/unicons.dart';
 
 import '../core/color_values.dart';
-import '../core/ui_constant.dart';
+import '../core/styles.dart';
 
 class ArticleCardWidget extends StatefulWidget {
   const ArticleCardWidget({Key? key}) : super(key: key);
@@ -27,22 +27,22 @@ class _ArticleCardWidgetState extends State<ArticleCardWidget> {
           child: Container(
             width: MediaQuery.of(context).size.width,
             height: 15.h,
-            padding: const EdgeInsets.all(UiConstant.defaultPadding),
+            padding: const EdgeInsets.all(Styles.defaultPadding),
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(color: ColorValues.grey10),
-              borderRadius: BorderRadius.circular(UiConstant.defaultBorder)
+              borderRadius: BorderRadius.circular(Styles.defaultBorder)
             ),
             child: Row(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(UiConstant.defaultBorder),
+                  borderRadius: BorderRadius.circular(Styles.defaultBorder),
                   child: Container(
                     width: 18.w,
                     color: ColorValues.primary50,
                   ),
                 ),
-                const SizedBox(width: UiConstant.defaultSpacing),
+                const SizedBox(width: Styles.defaultSpacing),
                 Expanded(
                   flex: 4,
                   child: Column(
@@ -84,8 +84,8 @@ class _ArticleCardWidgetState extends State<ArticleCardWidget> {
                 color: _isBookmarked ? ColorValues.secondary50 : Colors.white,
                 border: Border.all(color: ColorValues.grey10),
                 borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(UiConstant.defaultBorder),
-                  topRight: Radius.circular(UiConstant.defaultBorder),
+                  bottomLeft: Radius.circular(Styles.defaultBorder),
+                  topRight: Radius.circular(Styles.defaultBorder),
                 )
               ),
               child: Icon(UniconsLine.bookmark, size: 20,

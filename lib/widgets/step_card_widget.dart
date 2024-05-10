@@ -5,7 +5,7 @@ import 'package:timeline_tile/timeline_tile.dart';
 import 'package:unicons/unicons.dart';
 
 import '../core/color_values.dart';
-import '../core/ui_constant.dart';
+import '../core/styles.dart';
 
 class StepCardWidget extends StatelessWidget {
   const StepCardWidget({
@@ -52,11 +52,11 @@ class StepCardWidget extends StatelessWidget {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.all(UiConstant.defaultPadding),
-            margin: const EdgeInsets.only(left: 5, bottom: UiConstant.defaultSpacing),
+            padding: const EdgeInsets.all(Styles.defaultPadding),
+            margin: const EdgeInsets.only(left: 5, bottom: Styles.defaultSpacing),
             decoration: BoxDecoration(
                 color: isActive ? ColorValues.success10 : Colors.white,
-                borderRadius: BorderRadius.circular(UiConstant.defaultBorder),
+                borderRadius: BorderRadius.circular(Styles.defaultBorder),
                 border: Border(
                     top: const BorderSide(
                       color: ColorValues.grey10,

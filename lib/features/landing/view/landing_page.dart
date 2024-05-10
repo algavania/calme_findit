@@ -1,14 +1,14 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:calme/features/landing/widgets/slider.dart';
 import 'package:calme/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../l10n/l10n.dart';
-import '../../core/color_values.dart';
-import '../../core/ui_constant.dart';
-import '../../widgets/custom_button.dart';
-import '../../widgets/logo_widget.dart';
-import 'slider.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../core/color_values.dart';
+import '../../../core/styles.dart';
+import '../../../widgets/custom_button.dart';
+import '../../../widgets/logo_widget.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -57,7 +57,7 @@ class _LandingPageState extends State<LandingPage> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.all(UiConstant.defaultPadding),
+          padding: const EdgeInsets.all(Styles.defaultPadding),
           child: Column(
             children: [
               SizedBox(height: 5.h),

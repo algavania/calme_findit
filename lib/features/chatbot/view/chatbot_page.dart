@@ -1,5 +1,5 @@
 import 'package:calme/core/color_values.dart';
-import 'package:calme/core/ui_constant.dart';
+import 'package:calme/core/styles.dart';
 import 'package:calme/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,9 +7,9 @@ import 'package:sizer/sizer.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg_provider;
 import 'package:unicons/unicons.dart';
 
-import '../../../l10n/l10n.dart';
-import '../../widgets/back_button.dart';
-import '../../widgets/rounded_button.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../widgets/back_button.dart';
+import '../../../widgets/rounded_button.dart';
 
 class ChatbotPage extends StatefulWidget {
   const ChatbotPage({Key? key}) : super(key: key);
@@ -44,7 +44,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
           child: Column(
             children: [
               _buildAppBar(),
-              const SizedBox(height: UiConstant.defaultSpacing),
+              const SizedBox(height: Styles.defaultSpacing),
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
@@ -71,7 +71,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: UiConstant.defaultSpacing),
+              const SizedBox(height: Styles.defaultSpacing),
               MessageChatBoxWidget(controller: _chatController, onSend: () {
                 setState(() {
                   _list.add(MessageModel(message: _chatController.text));
@@ -87,29 +87,29 @@ class _ChatbotPageState extends State<ChatbotPage> {
 
   Widget _buildBody() {
     return ListView.separated(
-      separatorBuilder: (_, __) => const SizedBox(height: UiConstant.defaultSpacing),
+      separatorBuilder: (_, __) => const SizedBox(height: Styles.defaultSpacing),
       itemCount: _list.length,
       shrinkWrap: true,
-      padding: const EdgeInsets.symmetric(vertical: UiConstant.defaultPadding),
+      padding: const EdgeInsets.symmetric(vertical: Styles.defaultPadding),
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index){
         MessageModel chat = _list[index];
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: UiConstant.defaultPadding),
+          padding: const EdgeInsets.symmetric(horizontal: Styles.defaultPadding),
           child: Align(
             alignment: (!chat.isSender ? Alignment.topLeft : Alignment.topRight),
             child: Container(
               decoration: BoxDecoration(
                 border: chat.isSender ? null : Border.all(color: ColorValues.grey10),
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(!chat.isSender ? UiConstant.smallBorder : UiConstant.defaultBorder),
-                  topRight: Radius.circular(chat.isSender ? UiConstant.smallBorder : UiConstant.defaultBorder),
-                  bottomRight: const Radius.circular(UiConstant.defaultBorder),
-                  bottomLeft: const Radius.circular(UiConstant.defaultBorder),
+                  topLeft: Radius.circular(!chat.isSender ? Styles.smallBorder : Styles.defaultBorder),
+                  topRight: Radius.circular(chat.isSender ? Styles.smallBorder : Styles.defaultBorder),
+                  bottomRight: const Radius.circular(Styles.defaultBorder),
+                  bottomLeft: const Radius.circular(Styles.defaultBorder),
                 ),
                 color: (!chat.isSender ? ColorValues.background : Theme.of(context).primaryColor),
               ),
-              padding: const EdgeInsets.symmetric(vertical: UiConstant.contentPadding, horizontal: UiConstant.defaultPadding),
+              padding: const EdgeInsets.symmetric(vertical: Styles.contentPadding, horizontal: Styles.defaultPadding),
               margin: EdgeInsets.only(
                 left: !chat.isSender ? 0 : 10.w,
                 right: chat.isSender ? 0 : 10.w
@@ -127,11 +127,11 @@ class _ChatbotPageState extends State<ChatbotPage> {
   Widget _buildAppBar() {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.all(UiConstant.defaultPadding),
+      padding: const EdgeInsets.all(Styles.defaultPadding),
       child: Row(
         children: [
           const CustomBackButton(),
-          const SizedBox(width: UiConstant.defaultPadding),
+          const SizedBox(width: Styles.defaultPadding),
           Expanded(
               child: Row(
             children: [
@@ -144,7 +144,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
                   child: SvgPicture.asset('assets/home/chatbot.svg'),
                 ),
               ),
-              const SizedBox(width: UiConstant.defaultSpacing),
+              const SizedBox(width: Styles.defaultSpacing),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -164,7 +164,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
               )
             ],
           )),
-          const SizedBox(width: UiConstant.defaultPadding),
+          const SizedBox(width: Styles.defaultPadding),
           const RoundedButton(
             color: Colors.transparent,
             child: SizedBox.shrink(),
@@ -193,7 +193,7 @@ class _MessageChatBoxWidgetState extends State<MessageChatBoxWidget> {
       decoration: const BoxDecoration(
           color: Colors.white,
           border: Border(top: BorderSide(color: ColorValues.grey10))),
-      padding: const EdgeInsets.all(UiConstant.defaultPadding),
+      padding: const EdgeInsets.all(Styles.defaultPadding),
       child: Row(
         children: [
           Expanded(
@@ -208,7 +208,7 @@ class _MessageChatBoxWidgetState extends State<MessageChatBoxWidget> {
               hint: AppLocalizations.of(context).typeSomething,
             ),
           ),
-          const SizedBox(width: UiConstant.defaultSpacing),
+          const SizedBox(width: Styles.defaultSpacing),
           RoundedButton(
               onTap: !_isSend ? null : widget.onSend,
               color: _isSend ? Theme.of(context).primaryColor : ColorValues.grey10,

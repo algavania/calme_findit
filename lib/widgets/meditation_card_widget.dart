@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 import 'package:unicons/unicons.dart';
 
 import '../core/color_values.dart';
-import '../core/ui_constant.dart';
+import '../core/styles.dart';
 import 'step_card_widget.dart';
 
 class MeditationCardWidget extends StatefulWidget {
@@ -28,13 +28,13 @@ class _MeditationCardWidgetState extends State<MeditationCardWidget> {
         Container(
           decoration: BoxDecoration(
               color: widget.cardColor,
-              borderRadius: BorderRadius.circular(UiConstant.defaultBorder)),
-          padding: const EdgeInsets.all(UiConstant.defaultPadding),
+              borderRadius: BorderRadius.circular(Styles.defaultBorder)),
+          padding: const EdgeInsets.all(Styles.defaultPadding),
           width: MediaQuery.of(context).size.width,
           child: Row(
             children: [
               GlowingImageWidget(imageUrl: widget.imageUrl, cardColor: widget.cardColor),
-              const SizedBox(width: UiConstant.defaultSpacing),
+              const SizedBox(width: Styles.defaultSpacing),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +55,7 @@ class _MeditationCardWidgetState extends State<MeditationCardWidget> {
                                       .bodySmall
                                       ?.copyWith(color: Colors.white))
                             ])),
-                    const SizedBox(height: UiConstant.smallerSpacing),
+                    const SizedBox(height: Styles.smallerSpacing),
                     Text('Menenangkan pikiran di rumah',
                         style: Theme.of(context)
                             .textTheme
@@ -64,7 +64,7 @@ class _MeditationCardWidgetState extends State<MeditationCardWidget> {
                   ],
                 ),
               ),
-              const SizedBox(width: UiConstant.defaultSpacing),
+              const SizedBox(width: Styles.defaultSpacing),
               InkWell(
                 onTap: () {
                   setState(() {
@@ -74,9 +74,9 @@ class _MeditationCardWidgetState extends State<MeditationCardWidget> {
                 child: Container(
                   decoration: BoxDecoration(
                       color: ColorValues.lighten(widget.cardColor, 20),
-                      borderRadius: BorderRadius.circular(UiConstant.smallerBorder)
+                      borderRadius: BorderRadius.circular(Styles.smallerBorder)
                   ),
-                  padding: const EdgeInsets.all(UiConstant.smallerSpacing),
+                  padding: const EdgeInsets.all(Styles.smallerSpacing),
                   child: Icon(
                     _isOpened ? UniconsSolid.angle_up : UniconsSolid.angle_down,
                     color: Colors.white,

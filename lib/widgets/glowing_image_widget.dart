@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 
 import '../core/color_values.dart';
-import '../core/ui_constant.dart';
+import '../core/styles.dart';
 
 class GlowingImageWidget extends StatelessWidget {
   const GlowingImageWidget({Key? key, this.imageUrl = 'assets/home/stay_home.svg', required this.cardColor, this.imageSize}) : super(key: key);
@@ -14,16 +14,16 @@ class GlowingImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(UiConstant.iconPadding2),
+      padding: const EdgeInsets.all(Styles.iconPadding2),
       decoration: BoxDecoration(
           color: ColorValues.lighten(cardColor, 20),
-          borderRadius: BorderRadius.circular(UiConstant.iconBorder)),
+          borderRadius: BorderRadius.circular(Styles.iconBorder)),
       child: Container(
-          padding: const EdgeInsets.all(UiConstant.iconPadding),
+          padding: const EdgeInsets.all(Styles.iconPadding),
           decoration: BoxDecoration(
               color: ColorValues.lighten(cardColor, 50),
               borderRadius:
-              BorderRadius.circular(UiConstant.defaultBorder)),
+              BorderRadius.circular(Styles.defaultBorder)),
           child: SvgPicture.asset(
             imageUrl,
             width: imageSize ?? 10.w,

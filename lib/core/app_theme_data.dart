@@ -23,8 +23,10 @@ class AppThemeData {
         MaterialColor(primaryColor.value, primaryColorMap);
 
     return ThemeData(
+        useMaterial3: true,
         primaryColor: primaryColor,
         primarySwatch: primaryMaterialColor,
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: primaryMaterialColor),
         scaffoldBackgroundColor: ColorValues.background,
         canvasColor: ColorValues.background,
         brightness: Brightness.light,
@@ -36,11 +38,43 @@ class AppThemeData {
           selectedItemColor: ColorValues.primary50,
           unselectedItemColor: ColorValues.grey20,
           selectedLabelStyle: GoogleFonts.plusJakartaSans(
-              color: ColorValues.primary50, fontSize: 13, fontWeight: FontWeight.bold),
+              color: ColorValues.primary50,
+              fontSize: 13,
+              fontWeight: FontWeight.bold),
           unselectedLabelStyle: GoogleFonts.plusJakartaSans(
-              color: ColorValues.grey20, fontSize: 13, fontWeight: FontWeight.normal),
+              color: ColorValues.grey20,
+              fontSize: 13,
+              fontWeight: FontWeight.normal),
         ),
         iconTheme: IconThemeData(size: 6.w, color: ColorValues.grey50),
+        navigationBarTheme: NavigationBarThemeData(
+          elevation: 0,
+          indicatorColor: Colors.transparent,
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+          surfaceTintColor: ColorValues.white,
+          backgroundColor: ColorValues.white,
+          labelTextStyle: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.selected)) {
+              return const TextStyle(
+                color: ColorValues.primary50,
+                fontSize: 13,
+                height: 0,
+                fontWeight: FontWeight.bold,
+              );
+            }
+            return const TextStyle(
+              color: ColorValues.grey20,
+              fontSize: 13,
+              height: 0,
+            );
+          }),
+          iconTheme: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.selected)) {
+              return const IconThemeData(color: ColorValues.primary50);
+            }
+            return const IconThemeData(color: ColorValues.grey20);
+          }),
+        ),
         textTheme: TextTheme(
           // titleLarge: Title 1
           // titleMedium: Title 2
@@ -50,31 +84,58 @@ class AppThemeData {
           // labelLarge: Button 1
           // displaySmall: Button 2
           displayLarge: GoogleFonts.plusJakartaSans(
-              color: ColorValues.text50, fontSize: 22, fontWeight: FontWeight.bold),
+              color: ColorValues.text50,
+              fontSize: 22,
+              fontWeight: FontWeight.bold),
           displayMedium: GoogleFonts.plusJakartaSans(
-              color: ColorValues.text50, fontSize: 19, fontWeight: FontWeight.w300),
+              color: ColorValues.text50,
+              fontSize: 19,
+              fontWeight: FontWeight.w300),
           displaySmall: GoogleFonts.plusJakartaSans(
-              color: ColorValues.text50, fontSize: 13, fontWeight: FontWeight.bold),
+              color: ColorValues.text50,
+              fontSize: 13,
+              fontWeight: FontWeight.bold),
           headlineMedium: GoogleFonts.plusJakartaSans(
-              color: ColorValues.text50, fontSize: 34, fontWeight: FontWeight.w400),
+              color: ColorValues.text50,
+              fontSize: 34,
+              fontWeight: FontWeight.w400),
           headlineSmall: GoogleFonts.plusJakartaSans(
-              color: ColorValues.text50, fontSize: 24, fontWeight: FontWeight.w400),
+              color: ColorValues.text50,
+              fontSize: 24,
+              fontWeight: FontWeight.w400),
           titleLarge: GoogleFonts.plusJakartaSans(
-              color: ColorValues.text50, fontSize: 22, fontWeight: FontWeight.bold),
+              color: ColorValues.text50,
+              fontSize: 22,
+              fontWeight: FontWeight.bold),
           titleMedium: GoogleFonts.plusJakartaSans(
-              color: ColorValues.text50, fontSize: 19, fontWeight: FontWeight.bold),
+              color: ColorValues.text50,
+              fontSize: 19,
+              fontWeight: FontWeight.bold),
           titleSmall: GoogleFonts.plusJakartaSans(
-              color: ColorValues.text50, fontSize: 13, fontWeight: FontWeight.w500),
+              color: ColorValues.text50,
+              fontSize: 13,
+              fontWeight: FontWeight.w500),
           bodyLarge: GoogleFonts.plusJakartaSans(
-              color: ColorValues.text50, fontSize: 19, fontWeight: FontWeight.w400),
+              color: ColorValues.text50,
+              fontSize: 19,
+              fontWeight: FontWeight.w400),
           bodyMedium: GoogleFonts.plusJakartaSans(
-              color: ColorValues.text50, fontSize: 14, fontWeight: FontWeight.w400),
+              color: ColorValues.text50,
+              fontSize: 14,
+              fontWeight: FontWeight.w400),
           labelLarge: GoogleFonts.plusJakartaSans(
-              color: ColorValues.text50, fontSize: 14, fontWeight: FontWeight.bold),
+              color: ColorValues.text50,
+              fontSize: 14,
+              fontWeight: FontWeight.bold),
           bodySmall: GoogleFonts.plusJakartaSans(
-              color: ColorValues.text50, fontSize: 13, fontWeight: FontWeight.normal),
+              color: ColorValues.text50,
+              fontSize: 13,
+              fontWeight: FontWeight.normal),
           labelSmall: GoogleFonts.plusJakartaSans(
-              color: ColorValues.text50, fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
+              color: ColorValues.text50,
+              fontSize: 10,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 1.5),
         ));
   }
 }
