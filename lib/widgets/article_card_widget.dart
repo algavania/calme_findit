@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:calme/presentation/routes/router.gr.dart';
+import 'package:calme/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:unicons/unicons.dart';

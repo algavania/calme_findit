@@ -1,4 +1,4 @@
-import 'package:calme/presentation/core/ui_constant.dart';
+import 'package:calme/core/ui_constant.dart';
 import 'package:flutter/material.dart';
 
 import '../core/color_values.dart';

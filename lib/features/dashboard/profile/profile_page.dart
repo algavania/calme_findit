@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:calme/core/color_values.dart';
+import 'package:calme/core/ui_constant.dart';
 import 'package:calme/l10n/l10n.dart';
-import 'package:calme/presentation/core/color_values.dart';
-import 'package:calme/presentation/core/ui_constant.dart';
-import 'package:calme/presentation/routes/router.gr.dart';
+import 'package:calme/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:unicons/unicons.dart';
 

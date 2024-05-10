@@ -1,21 +1,21 @@
+import 'package:calme/core/color_values.dart';
+import 'package:calme/core/ui_constant.dart';
 import 'package:calme/l10n/l10n.dart';
-import 'package:calme/presentation/core/color_values.dart';
-import 'package:calme/presentation/core/ui_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:unicons/unicons.dart';
 
-import '../../../widgets/article_card_widget.dart';
 import '../../../widgets/custom_text_field.dart';
+import '../../../widgets/meditation_card_widget.dart';
 import '../../../widgets/rounded_button.dart';
 
-class ArticlePage extends StatefulWidget {
-  const ArticlePage({Key? key}) : super(key: key);
+class MeditationPage extends StatefulWidget {
+  const MeditationPage({Key? key}) : super(key: key);
 
   @override
-  State<ArticlePage> createState() => _ArticlePageState();
+  State<MeditationPage> createState() => _MeditationPageState();
 }
 
-class _ArticlePageState extends State<ArticlePage> {
+class _MeditationPageState extends State<MeditationPage> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -36,7 +36,7 @@ class _ArticlePageState extends State<ArticlePage> {
                   children: [
                     _buildTopSearchWidget(),
                     const SizedBox(height: UiConstant.defaultSpacing),
-                    _buildArticleSectionWidget(),
+                    _buildMeditationSectionWidget(),
                     const SizedBox(height: UiConstant.defaultSpacing),
                   ],
                 ),
@@ -48,7 +48,12 @@ class _ArticlePageState extends State<ArticlePage> {
     );
   }
 
-  Widget _buildArticleSectionWidget() {
+  Widget _buildMeditationSectionWidget() {
+    List<Color> colors = [
+      ColorValues.primary50,
+      ColorValues.pink50,
+      ColorValues.secondary50,
+    ];
     return Container(
       color: Colors.white,
       width: MediaQuery
@@ -65,7 +70,7 @@ class _ArticlePageState extends State<ArticlePage> {
                 child: Text(
                   AppLocalizations
                       .of(context)
-                      .articleSectionText1,
+                      .meditationTopic,
                   style: Theme
                       .of(context)
                       .textTheme
@@ -78,7 +83,7 @@ class _ArticlePageState extends State<ArticlePage> {
           Text(
             AppLocalizations
                 .of(context)
-                .articleSectionText2,
+                .viewPlaylistText,
             style: Theme
                 .of(context)
                 .textTheme
@@ -89,10 +94,10 @@ class _ArticlePageState extends State<ArticlePage> {
           ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemBuilder: (_, __) => const ArticleCardWidget(),
+              itemBuilder: (_, i) => MeditationCardWidget(cardColor: colors[i],),
               separatorBuilder: (_, __) =>
               const SizedBox(height: UiConstant.biggerSpacing,),
-              itemCount: 1),
+              itemCount: 3),
           const SizedBox(height: UiConstant.smallerSpacing),
         ],
       ),
@@ -107,7 +112,7 @@ class _ArticlePageState extends State<ArticlePage> {
         controller: _searchController,
         hint: AppLocalizations
             .of(context)
-            .findInterestingArticle,
+            .findMeditationTopic,
         icon: UniconsLine.search,
         isDense: true,
       ),
@@ -129,7 +134,7 @@ class _ArticlePageState extends State<ArticlePage> {
               child: Text(
                 AppLocalizations
                     .of(context)
-                    .article,
+                    .meditation,
                 textAlign: TextAlign.center,
                 style: Theme
                     .of(context)
@@ -137,12 +142,10 @@ class _ArticlePageState extends State<ArticlePage> {
                     .labelLarge,
               )),
           RoundedButton(
-              border: Border.all(color: ColorValues.secondary50),
+              border: Border.all(color: ColorValues.primary50),
+              color: ColorValues.primary50,
               onTap: () {},
-              child: const Icon(
-                UniconsLine.bookmark,
-                color: ColorValues.secondary50,
-              )),
+              child: Container()),
         ],
       ),
     );

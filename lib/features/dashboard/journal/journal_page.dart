@@ -1,7 +1,7 @@
+import 'package:calme/core/color_values.dart';
+import 'package:calme/core/ui_constant.dart';
 import 'package:calme/l10n/l10n.dart';
-import 'package:calme/presentation/core/color_values.dart';
-import 'package:calme/presentation/core/ui_constant.dart';
-import 'package:calme/presentation/widgets/glowing_image_widget.dart';
+import 'package:calme/widgets/glowing_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';

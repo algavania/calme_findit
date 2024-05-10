@@ -1,6 +1,6 @@
-import 'package:calme/presentation/core/color_values.dart';
-import 'package:calme/presentation/core/ui_constant.dart';
-import 'package:calme/presentation/widgets/custom_text_field.dart';
+import 'package:calme/core/color_values.dart';
+import 'package:calme/core/ui_constant.dart';
+import 'package:calme/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';

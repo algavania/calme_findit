@@ -1,12 +1,12 @@
+import 'package:calme/core/app_theme_data.dart';
+import 'package:calme/core/color_values.dart';
+import 'package:calme/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:sizer/sizer.dart';
 
 import 'l10n/l10n.dart';
-import 'presentation/core/app_theme_data.dart';
-import 'presentation/core/color_values.dart';
-import 'presentation/routes/router.gr.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

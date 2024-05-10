@@ -1,4 +1,4 @@
-import 'package:calme/presentation/widgets/glowing_image_widget.dart';
+import 'package:calme/widgets/glowing_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:unicons/unicons.dart';

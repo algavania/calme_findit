@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:calme/core/color_values.dart';
+import 'package:calme/core/ui_constant.dart';
 import 'package:calme/l10n/l10n.dart';
-import 'package:calme/presentation/core/color_values.dart';
-import 'package:calme/presentation/core/ui_constant.dart';
-import 'package:calme/presentation/routes/router.gr.dart';
-import 'package:calme/presentation/widgets/custom_button.dart';
-import 'package:calme/presentation/widgets/custom_text_field.dart';
-import 'package:calme/presentation/widgets/glowing_image_widget.dart';
+import 'package:calme/routes/router.gr.dart';
+import 'package:calme/widgets/custom_button.dart';
+import 'package:calme/widgets/custom_text_field.dart';
+import 'package:calme/widgets/glowing_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:unicons/unicons.dart';
