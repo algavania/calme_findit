@@ -1,6 +1,7 @@
 import 'package:calme/core/color_values.dart';
 import 'package:calme/core/styles.dart';
 import 'package:calme/database/db_helper.dart';
+import 'package:calme/util/extensions.dart';
 import 'package:calme/util/logger.dart';
 import 'package:calme/widgets/custom_text_field.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
@@ -79,26 +80,30 @@ class _ChatbotPageState extends State<ChatbotPage> {
                 controller: _chatController,
                 onSend: () async {
                   context.loaderOverlay.show();
-                  final content = _chatController.text.trimLeft().trimRight();
-                  _requestText.add(Messages(role: Role.user, content: content));
-                  final request = ChatCompleteText(
-                      messages: _requestText.map((e) => e.toJson()).toList(),
-                      maxToken: 500,
-                      model: GptTurbo16k0631Model());
-                  final response =
-                      await _openAI.onChatCompletion(request: request);
-                  var text = '';
-                  for (var element in response?.choices ?? []) {
-                    text += element.message?.content ?? '';
-                    logger.d("data -> ${element.message?.content}");
+                  try {
+                    final content = _chatController.text.trimLeft().trimRight();
+                    _requestText.add(Messages(role: Role.user, content: content));
+                    final request = ChatCompleteText(
+                        messages: _requestText.map((e) => e.toJson()).toList(),
+                        maxToken: 500,
+                        model: GptTurbo16k0631Model());
+                    final response =
+                    await _openAI.onChatCompletion(request: request);
+                    var text = '';
+                    for (var element in response?.choices ?? []) {
+                      text += element.message?.content ?? '';
+                      logger.d("data -> ${element.message?.content}");
+                    }
+
+                    setState(() {
+                      _list.add(MessageModel(message: content));
+                      _list.add(MessageModel(message: text, isSender: false));
+                      _chatController.clear();
+                    });
+                  } catch (e) {
+                    context.showSnackBar(message: e.toString(), isSuccess: false);
                   }
                   context.loaderOverlay.hide();
-
-                  setState(() {
-                    _list.add(MessageModel(message: content));
-                    _list.add(MessageModel(message: text, isSender: false));
-                    _chatController.clear();
-                  });
                 },
               ),
             ],
