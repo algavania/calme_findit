@@ -1,7 +1,12 @@
 import 'package:calme/core/color_values.dart';
 import 'package:calme/core/styles.dart';
+import 'package:calme/data/models/article/article_model.dart';
+import 'package:calme/features/article/bloc/article_bloc.dart';
+import 'package:calme/features/article/data/article_repository.dart';
+import 'package:calme/injector/injector.dart';
 import 'package:calme/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unicons/unicons.dart';
 
 import '../../../../widgets/article_card_widget.dart';
@@ -17,6 +22,13 @@ class ArticlePage extends StatefulWidget {
 
 class _ArticlePageState extends State<ArticlePage> {
   final TextEditingController _searchController = TextEditingController();
+  final _bloc = ArticleBloc(repository: Injector.instance<ArticleRepository>());
+
+  @override
+  void initState() {
+    _bloc.add(const ArticleEvent.getArticles());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +46,8 @@ class _ArticlePageState extends State<ArticlePage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    _buildTopSearchWidget(),
-                    const SizedBox(height: Styles.defaultSpacing),
+                    // _buildTopSearchWidget(),
+                    // const SizedBox(height: Styles.defaultSpacing),
                     _buildArticleSectionWidget(),
                     const SizedBox(height: Styles.defaultSpacing),
                   ],
@@ -86,17 +98,29 @@ class _ArticlePageState extends State<ArticlePage> {
                 ?.copyWith(color: ColorValues.grey50),
           ),
           const SizedBox(height: Styles.biggerSpacing),
-          ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (_, __) => const ArticleCardWidget(),
-              separatorBuilder: (_, __) =>
-              const SizedBox(height: Styles.biggerSpacing,),
-              itemCount: 1),
+          BlocBuilder<ArticleBloc, ArticleState>(
+            bloc: _bloc,
+            builder: (context, state) {
+              final list = List.generate(5, (_) => generateMockArticleModel());
+              return state.maybeMap(
+                  loaded: (s) => _buildList(s.list, false),
+                  orElse: () => _buildList(list, true));
+            },
+          ),
           const SizedBox(height: Styles.smallerSpacing),
         ],
       ),
     );
+  }
+
+  Widget _buildList(List<ArticleModel> list, bool isLoading) {
+    return ListView.separated(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemBuilder: (_, i) => ArticleCardWidget(articleModel: list[i],),
+        separatorBuilder: (_, __) =>
+        const SizedBox(height: Styles.biggerSpacing,),
+        itemCount: list.length);
   }
 
   Widget _buildTopSearchWidget() {
@@ -136,13 +160,13 @@ class _ArticlePageState extends State<ArticlePage> {
                     .textTheme
                     .labelLarge,
               )),
-          RoundedButton(
-              border: Border.all(color: ColorValues.secondary50),
-              onTap: () {},
-              child: const Icon(
-                UniconsLine.bookmark,
-                color: ColorValues.secondary50,
-              )),
+          // RoundedButton(
+          //     border: Border.all(color: ColorValues.secondary50),
+          //     onTap: () {},
+          //     child: const Icon(
+          //       UniconsLine.bookmark,
+          //       color: ColorValues.secondary50,
+          //     )),
         ],
       ),
     );

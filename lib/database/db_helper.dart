@@ -8,6 +8,7 @@ class DbHelper {
   static const users = 'users';
   static const meditations = 'meditations';
   static const articles = 'articles';
+  static const copings = 'copings';
   static const sessions = 'sessions';
   static const questions = 'questions';
   static const journals = 'journals';

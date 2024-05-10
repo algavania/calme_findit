@@ -2,6 +2,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:calme/core/color_values.dart';
 import 'package:calme/core/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:unicons/unicons.dart';
 
 extension CustomThemeExtension on BuildContext {
@@ -79,5 +80,14 @@ extension CustomConverter on String {
   Color hexToColor() {
     final hexValue = int.parse('FF$this', radix: 16);
     return Color(hexValue);
+  }
+}
+
+/// Extension on [DateTime] to format it to a string with a specified locale.
+extension FormattedDateTime on DateTime {
+  /// Returns a formatted string representation of the [DateTime] object.
+
+  String toFormattedDate() {
+    return DateFormat('dd/MM/yyyy').format(this);
   }
 }

@@ -8,3 +8,4 @@ export 'home/home.dart';
 export 'chatbot/chatbot.dart';
 export 'authentication/authentication.dart';
 export 'article/article.dart';
+export 'coping/coping.dart';

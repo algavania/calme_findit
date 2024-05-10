@@ -7,8 +7,6 @@ import 'package:calme/l10n/l10n.dart';
 import 'package:calme/routes/router.gr.dart';
 import 'package:calme/util/extensions.dart';
 import 'package:calme/widgets/back_button.dart';
-import 'package:calme/widgets/custom_app_bar.dart';
-import 'package:calme/widgets/custom_button.dart';
 import 'package:calme/widgets/step_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
