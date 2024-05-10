@@ -1,9 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:calme/core/color_values.dart';
 import 'package:calme/core/styles.dart';
+import 'package:calme/database/db_helper.dart';
+import 'package:calme/features/authentication/bloc/authentication_bloc.dart';
+import 'package:calme/features/authentication/data/repository/auth_repository.dart';
+import 'package:calme/injector/injector.dart';
 import 'package:calme/l10n/l10n.dart';
 import 'package:calme/routes/router.gr.dart';
+import 'package:calme/widgets/custom_alert_dialog.dart';
+import 'package:calme/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:unicons/unicons.dart';
 
 import '../../../../widgets/rounded_button.dart';
@@ -16,29 +24,40 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final _bloc =
+      AuthenticationBloc(repository: Injector.instance<AuthRepository>());
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Column(
-          children: [
-            const SizedBox(height: Styles.defaultPadding),
-            _buildAppBar(),
-            const SizedBox(height: Styles.defaultSpacing),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _buildProfileBody(),
-                    const SizedBox(height: Styles.defaultSpacing),
-                  ],
-                ),
-              ),
+    return BlocListener<AuthenticationBloc, AuthenticationState>(
+      bloc: _bloc,
+      listener: (context, state) {
+        state.maybeMap(
+            orElse: () {},
+            loading: (_) {
+              context.loaderOverlay.show();
+            },
+            unauthenticated: (_) {
+              context.loaderOverlay.hide();
+              AutoRouter.of(context).replace(const LoginRoute());
+            });
+      },
+      child: Scaffold(
+        appBar: CustomAppBar(
+          title: AppLocalizations.of(context).profile,
+        ),
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _buildProfileBody(),
+                const SizedBox(height: Styles.defaultSpacing),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -52,8 +71,8 @@ class _ProfilePageState extends State<ProfilePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildUserInfo(),
-          const SizedBox(height: Styles.defaultSpacing),
-          _buildMyActivity(),
+          // const SizedBox(height: Styles.defaultSpacing),
+          // _buildMyActivity(),
           const SizedBox(height: Styles.defaultSpacing),
           _buildHelpCenter(),
         ],
@@ -94,7 +113,15 @@ class _ProfilePageState extends State<ProfilePage> {
         const SizedBox(height: Styles.biggerSpacing),
         GestureDetector(
             onTap: () {
-              AutoRouter.of(context).replace(const LoginRoute());
+              showDialog(
+                  context: context,
+                  builder: (_) => CustomAlertDialog(
+                        title: 'Konfirmasi',
+                        description: 'Apakah kamu yakin ingin logout?',
+                        proceedAction: () {
+                          _bloc.add(const AuthenticationEvent.logout());
+                        },
+                      ));
             },
             child: _buildButton(
                 icon: UniconsLine.sign_out_alt,
@@ -112,8 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
           borderRadius: BorderRadius.circular(Styles.defaultBorder),
           border: Border.all(color: borderColor ?? ColorValues.grey10)),
       padding: const EdgeInsets.symmetric(
-          vertical: Styles.contentPadding,
-          horizontal: Styles.defaultPadding),
+          vertical: Styles.contentPadding, horizontal: Styles.defaultPadding),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -143,18 +169,22 @@ class _ProfilePageState extends State<ProfilePage> {
             border: Border.all(color: ColorValues.primary50),
             color: ColorValues.primary50,
             onTap: () {},
-            child: Container()),
+            child: const Icon(
+              UniconsLine.user,
+              color: ColorValues.white,
+              size: 32,
+            )),
         const SizedBox(width: Styles.defaultSpacing),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Fulan bin Fulan',
+              DbHelper.auth.currentUser?.displayName ?? 'User',
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: Styles.smallerSpacing),
             Text(
-              'fulan@gmail.com',
+              DbHelper.auth.currentUser?.email ?? 'user@gmail.com',
               style: Theme.of(context)
                   .textTheme
                   .bodySmall
@@ -163,35 +193,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         )
       ],
-    );
-  }
-
-  Widget _buildAppBar() {
-    return Padding(
-      padding:
-          const EdgeInsets.symmetric(horizontal: Styles.defaultPadding),
-      child: Row(
-        children: [
-          RoundedButton(
-              child: Image.asset(
-            'assets/core/logo.png',
-            width: 30,
-          )),
-          Expanded(
-              child: Text(
-            AppLocalizations.of(context).profile,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.labelLarge,
-          )),
-          RoundedButton(
-              color: Colors.white,
-              onTap: () {},
-              child: const Icon(
-                UniconsLine.setting,
-                color: ColorValues.text50,
-              )),
-        ],
-      ),
     );
   }
 }

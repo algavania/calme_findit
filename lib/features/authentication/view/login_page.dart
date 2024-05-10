@@ -95,14 +95,14 @@ class _LoginPageState extends State<LoginPage> {
                         icon: UniconsLine.key_skeleton,
                         isPassword: true,
                       ),
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(AppLocalizations.of(context).forgotPassword,
-                              style: Theme.of(context).textTheme.displaySmall),
-                        ],
-                      ),
+                      // const SizedBox(height: 16),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.end,
+                      //   children: [
+                      //     Text(AppLocalizations.of(context).forgotPassword,
+                      //         style: Theme.of(context).textTheme.displaySmall),
+                      //   ],
+                      // ),
                       const SizedBox(height: 26),
                       CustomButton(
                         buttonText: AppLocalizations.of(context).login,
